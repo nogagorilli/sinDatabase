@@ -17,14 +17,32 @@ public class SinSelectForm extends JFrame {
 		mainPanel.setSize(400, 100);
 		mainPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
 		
-		tableChooser = new TableChooseMenu();
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.add(tableChooser);
-		this.add(menuBar);
+		WherePanel w;
+		
+		w = new WherePanel();
+		w.setAttributeChooser(new AttributeChooseMenu.CirclesMenu("circles"));
+		mainPanel.add(w);
+			
+		w = new WherePanel();
+		w.setAttributeChooser(new AttributeChooseMenu.SinMenu("sins"));
+		mainPanel.add(w);
+
+		w = new WherePanel();
+		w.setAttributeChooser(new AttributeChooseMenu.SinnerMenu("sinners"));
+		mainPanel.add(w);
+		
+		w = new WherePanel();
+		w.setAttributeChooser(new AttributeChooseMenu.SinInstancesMenu("sin instances"));
+		mainPanel.add(w);
+		
+		w = new WherePanel();
+		w.setAttributeChooser(new AttributeChooseMenu.DemonMenu("demons"));
+		mainPanel.add(w);
+		
 				
+		this.add(mainPanel);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-
 }
