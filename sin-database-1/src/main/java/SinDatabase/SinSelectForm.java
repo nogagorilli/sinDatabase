@@ -1,48 +1,46 @@
 package SinDatabase;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 public class SinSelectForm extends JFrame {
-	private TableChooseMenu tableChooser;
+	private SinSelectPanel selectPanel;
+	private JButton selectButton;
 	private JPanel mainPanel;
 	public SinSelectForm(){
 		super("Select");
 		this.setSize(600,300);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		mainPanel = new JPanel();
 		mainPanel.setSize(400, 100);
-		mainPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		
-		WherePanel w;
-		
-		w = new WherePanel();
-		w.setAttributeChooser(new AttributeChooseMenu.CirclesMenu("circles"));
-		mainPanel.add(w);
-			
-		w = new WherePanel();
-		w.setAttributeChooser(new AttributeChooseMenu.SinMenu("sins"));
-		mainPanel.add(w);
+		selectPanel = new SinSelectPanel();
+		selectButton = new JButton("SELECT");
+		selectButton.addActionListener(new ActionListener(){
 
-		w = new WherePanel();
-		w.setAttributeChooser(new AttributeChooseMenu.SinnerMenu("sinners"));
-		mainPanel.add(w);
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(selectPanel.createHQLQuery());
+				
+			}
+			
+		});
 		
-		w = new WherePanel();
-		w.setAttributeChooser(new AttributeChooseMenu.SinInstancesMenu("sin instances"));
-		mainPanel.add(w);
-		
-		w = new WherePanel();
-		w.setAttributeChooser(new AttributeChooseMenu.DemonMenu("demons"));
-		mainPanel.add(w);
-		
+		mainPanel.add(selectPanel);
+		mainPanel.add(selectButton);
 				
 		this.add(mainPanel);
 		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		this.setVisible(true);
 	}
 }

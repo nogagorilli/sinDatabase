@@ -16,6 +16,7 @@ public class TableChooseMenu extends JMenu {
 	public JMenuItem circlesOfHellItem;
 	public JMenuItem sinInstancesItem;
 	public JMenuItem selectedItem;
+	private String prevText;
 	TableChooseMenu(){
 		super("select a table");
 		demonsItem = new JMenuItem("DEMONS");
@@ -73,6 +74,14 @@ public class TableChooseMenu extends JMenu {
 		this.add(circlesOfHellItem);
 		this.add(sinInstancesItem);
 		this.add(selectedItem);		
+	}
+	@Override
+	public void setText(String s) {
+		prevText = this.getText();
+		super.setText(s);
+	}
+	public String getPrevText() {
+		return prevText;
 	}
 	
 	

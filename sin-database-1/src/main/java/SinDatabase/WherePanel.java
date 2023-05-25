@@ -42,7 +42,18 @@ public class WherePanel extends JPanel {
 	public void setAttributeChooser(AttributeChooseMenu attribute) {
 		this.attributeChooser = attribute;
 		updatePanels();
-		
+	}
+	
+	public String getAttribute() {
+		return this.attributeChooser.getText();
+	}
+	
+	public String getAttributeValue() {
+		return this.attributeValue.getText();
+	}
+	
+	public String getRelation() {
+		return this.relationChooser.getText();
 	}
 
 }
