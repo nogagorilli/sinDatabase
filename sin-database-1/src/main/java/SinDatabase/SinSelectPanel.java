@@ -1,25 +1,16 @@
 package SinDatabase;
 
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuKeyListener;
-import javax.swing.event.MenuListener;
 
 
 
@@ -109,31 +100,31 @@ public class SinSelectPanel extends JPanel implements DBOperator {
 	public void addNewWherePanel() {
 		if(tableChooser.getText().equals(tableChooser.sinsItem.getText())) {
 			System.out.println("sins");
-			AttributeChooseMenu attr = new AttributeChooseMenu.SinMenu("attribute");
+			AttributeChooseMenu attr = new AttributeChooseMenu.SinMenu("ID");
 			WherePanel where = new WherePanel();
 			where.setAttributeChooser(attr);
 			wherePanels.add(where);
 		}else if(tableChooser.getText().equals(tableChooser.sinnersItem.getText())) {
 			System.out.println("sinners");
-			AttributeChooseMenu attr = new AttributeChooseMenu.SinnerMenu("attribute");
+			AttributeChooseMenu attr = new AttributeChooseMenu.SinnerMenu("ID");
 			WherePanel where = new WherePanel();
 			where.setAttributeChooser(attr);
 			wherePanels.add(where);
 		}else if(tableChooser.getText().equals(tableChooser.sinInstancesItem.getText())) {
 			System.out.println("sin instances");
-			AttributeChooseMenu attr = new AttributeChooseMenu.SinInstancesMenu("attribute");
+			AttributeChooseMenu attr = new AttributeChooseMenu.SinInstancesMenu("ID");
 			WherePanel where = new WherePanel();
 			where.setAttributeChooser(attr);
 			wherePanels.add(where);
 		}else if(tableChooser.getText().equals(tableChooser.demonsItem.getText())) {
 			System.out.println("demons");
-			AttributeChooseMenu attr = new AttributeChooseMenu.DemonMenu("attribute");
+			AttributeChooseMenu attr = new AttributeChooseMenu.DemonMenu("ID");
 			WherePanel where = new WherePanel();
 			where.setAttributeChooser(attr);
 			wherePanels.add(where);
 		}else if(tableChooser.getText().equals(tableChooser.circlesOfHellItem.getText())) {
 			System.out.println("circles");
-			AttributeChooseMenu attr = new AttributeChooseMenu.CirclesMenu("attribute");
+			AttributeChooseMenu attr = new AttributeChooseMenu.CirclesMenu("ID");
 			WherePanel where = new WherePanel();
 			where.setAttributeChooser(attr);
 			wherePanels.add(where);
@@ -152,32 +143,43 @@ public class SinSelectPanel extends JPanel implements DBOperator {
 		}};
 		
 		HashMap<String,String> attributeMap = new HashMap<String, String>() {{
-		    put("DEMONS", "Demon");
-		    put("SINNERS", "Sinner");
-		    put("SINS", "Sin");
-		    put("CIRCLES OF HELL", "CircleOfHell");
-		    put("SIN INSTANCES", "SinInstance");
+			put("ID", "obj.id");
+		    put("NAME", "obj.name");
+		    put("LASTNAME", "obj.lastName");
+		    put("EXPERIENCE", "obj.expereience");
+		    put("SALARY", "obj.salary");
+		    put("CIRCLE OF HELL.NAME", "obj.circle.name");
+		    put("DATE OF DEATH", "obj.dateOfDeath");
+		    put("HEAVINESS", "obj.heaviness");
+		    put("SINNER.NAME", "obj.sinner.name");
+		    put("SINNER.LASTNAME", "obj.sinner.lastName");
+		    put("SIN.NAME", "obj.sin.name");
 		}};
 		
+		HashMap<String,String> relationMap = new HashMap<String, String>() {{
+		    put(" = ", " = ");
+		    put(">", " > ");
+		    put("<", " < ");
+		}};
 		
 		String query = "";
-		query = query+"SELECT object from ";
+		query = query+"SELECT obj from ";
 		query = query+ tableMap.get(tableChooser.getText());
-		query = query+ " object";
+		query = query+ " obj";
 		if(wherePanels.size() != 0) {
 			query+=" WHERE ";
 			query+=" ( ";
 			for(int i = 0;i<wherePanels.size();i++) {
 				if(i != 0) {
-					query+= " && ";
+					query+= " and ";
 				}
 				WherePanel panel = wherePanels.get(i);
-				query+= panel.getAttribute();
-				query+= panel.getRelation();
-				query+= panel.getAttributeValue();
+				query+= attributeMap.get(panel.getAttribute());
+				query+= relationMap.get(panel.getRelation());
+				query+= panel.getAttributeValue().replaceAll("\"", "'");
 				
 			}
-			query+=" )";
+			query+=" ) ";
 		}
 		return query;
 	}

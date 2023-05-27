@@ -1,18 +1,24 @@
 package SinDatabase;
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 public class SinSelectForm extends JFrame {
 	private SinSelectPanel selectPanel;
+	public SinSelectPanel getSelectPanel() {
+		return selectPanel;
+	}
+
 	private JButton selectButton;
+	public JButton getSelectButton() {
+		return selectButton;
+	}
+	
 	private JPanel mainPanel;
 	public SinSelectForm(){
 		super("Select");

@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -31,6 +33,8 @@ public class SinGUI extends JFrame{
 	
 	
 	
+	//Class for creating selection queries;
+	private SinSelectForm sinSelectForm;
 	
 	
 	//Class where all data is contained and where all operations with data are executed
@@ -60,7 +64,7 @@ public class SinGUI extends JFrame{
 	
 	
 	
-	private class sinGUIButton extends JButton{
+	static class sinGUIButton extends JButton{
 		sinGUIButton(String name){
 			super(name);
 			this.setBackground(Color.DARK_GRAY);
@@ -125,6 +129,27 @@ public class SinGUI extends JFrame{
         addButton = new sinGUIButton("    ADD    ");
         deleteButton = new sinGUIButton(" DELETE ");
         selectButton = new sinGUIButton(" SELECT ");
+        selectButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sinSelectForm = new SinSelectForm();
+				sinSelectForm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				sinSelectForm.getSelectButton().addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String query = sinSelectForm.getSelectPanel().createHQLQuery();
+						//SinObjectModel.getEntityManager().getTransaction().begin();
+						try {
+							ArrayList<Object> list= (ArrayList<Object>) SinObjectModel.getEntityManager().createQuery(query).getResultList();
+//							List<Sinner> sinnerList= SinObjectModel.getEntityManager().createQuery("SELECT obj from Sinner obj WHERE  obj.name = 'Alek'").getResultList();
+							tables.setSelected(SinObjectModel.createSelectedScroll(list));
+						}catch(Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				});
+			}
+        });
         saveButton = new sinGUIButton("   SAVE   ");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -132,6 +157,7 @@ public class SinGUI extends JFrame{
                 int ret = fileopen.showDialog(null, "Save XML");
                 if (ret == JFileChooser.APPROVE_OPTION) {
                 	objectModel.saveXML(fileopen.getSelectedFile().getAbsolutePath());
+                	
                 }
             }
         });
@@ -202,7 +228,7 @@ public class SinGUI extends JFrame{
         sinInstancesButton.addActionListener(e -> tables.openSinInstanceTable());
         
         selectedButton = new sinGUIButton("selected");
-        
+        selectedButton.addActionListener(e -> tables.openSelectedTable());
         
         
         choosePanel.add(demonsButton);

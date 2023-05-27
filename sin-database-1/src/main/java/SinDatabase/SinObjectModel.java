@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,8 +47,13 @@ public class SinObjectModel {
 	private HashMap<Integer,Demon> demons;
 	private HashMap<Integer,SinInstance> sinInstances;
 	private HashMap<Integer,CircleOfHell> circlesOfHell;
-	private EntityManager entityManager;
+	private JScrollPane selectedScroll;
+	static private EntityManager entityManager;
 	
+	public static EntityManager getEntityManager() {
+		return entityManager;
+	}
+
 	public List<Sinner> getSinners(){
 		return new ArrayList<Sinner>(this.sinners.values());
 	}
@@ -68,6 +75,63 @@ public class SinObjectModel {
 	}
 	
 	
+	static JScrollPane createSelectedScroll(ArrayList list) {
+		JTable table;
+		DefaultTableModel tableModel;
+		if(list.size() !=0) {
+			if(list.get(0).getClass() == Sinner.class) {
+				String[] columns = new String[] {"ID", "NAME", "LASTNAME","DATE OF DEATH","CIRCLE OF HELL"};
+				tableModel = new DefaultTableModel(columns, 0);
+				for(Object t:list) {
+					Sinner temp= (Sinner)t;
+					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),temp.getDateOfDeath().toString(),temp.getCircleOfHell().getName()});
+				}
+			}else if(list.get(0).getClass() == Demon.class) {
+				String[] columns = new String[] {"ID", "NAME", "LASTNAME","EXPERIENCE","SALARY","CIRCLE OF HELL"};
+				tableModel = new DefaultTableModel(columns, 0);
+				for(Object t:list) {
+					Demon temp = (Demon) t;
+					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),Integer.toString(temp.getExperience()),Integer.toString(temp.getSalary()),temp.getCircleOfHell().getName()});
+				}
+			}else if(list.get(0).getClass() == Sin.class) {
+				String[] columns = new String[] {"ID", "NAME", "HEAVINESS"};
+				tableModel = new DefaultTableModel(columns, 0);
+				for(Object t:list) {
+					Sin temp = (Sin) t;
+					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),Float.toString(temp.getHeaviness())});
+				}
+				
+			}else if(list.get(0).getClass() == SinInstance.class) {
+				String[] columns = new String[] {"ID", "SINNER", "SIN","DATE"};
+				tableModel = new DefaultTableModel(columns, 0);
+				for(Object t:list) {
+					SinInstance temp = (SinInstance) t;
+					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getSinner().getName()+" "+temp.getSinner().getLastName(),temp.getSin().getName(),temp.getDate().toString()});
+				}
+			}else if(list.get(0).getClass() == CircleOfHell.class) {
+				String[] columns = new String[] {"ID", "NAME", "DESCRIPTION"};
+				tableModel = new DefaultTableModel(columns, 0);
+				for(Object t:list) {
+					CircleOfHell temp = (CircleOfHell) t;
+					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getDescription()});
+				}
+			}else {
+				String[] columns = new String[] {"ID", "SINNER", "SIN","DATE"};
+				tableModel = new DefaultTableModel(columns, 0);
+			}
+	        
+	        
+		}else {
+			String[] columns = new String[] {"ID", "SINNER", "SIN","DATE"};
+			tableModel = new DefaultTableModel(columns, 0);
+		}
+		
+        table = new JTable(tableModel);
+		
+		
+		return new JScrollPane(table);
+	}
+	
 	
 	
 	
@@ -78,23 +142,6 @@ public class SinObjectModel {
 		this.sinInstances= new HashMap<Integer,SinInstance>();
 		this.circlesOfHell = new HashMap<Integer,CircleOfHell>();
 		entityManager = Persistence.createEntityManagerFactory("SinPersistence").createEntityManager();
-		
-		
-//		Demon tempD;
-//		this.entityManager.getTransaction().begin();
-//		tempD = new Demon();
-//		tempD.setName("a");	
-//		this.entityManager.persist(tempD);
-//		this.entityManager.getTransaction().commit();
-//		
-//		
-//		Demon kondakov;
-//		this.entityManager.getTransaction().begin();
-//		kondakov = new Demon("Alexander","Kondakov");
-//		kondakov.setSalary(666);
-//		kondakov.setExperience(666);
-//		this.entityManager.persist(kondakov);
-//		this.entityManager.getTransaction().commit();
 		
 		
 		
@@ -119,22 +166,24 @@ public class SinObjectModel {
 		catch (SAXException e) { e.printStackTrace(); throw new WrongXMLException(); }
 		
 		
-		this.entityManager.getTransaction().begin();
+		SinObjectModel.entityManager.getTransaction().begin();
 		try {
-			List<Sin> sinList= this.entityManager.createQuery("SELECT s FROM Sin s").getResultList();
-			List<Sinner> sinnerList= this.entityManager.createQuery("SELECT s FROM Sinner s").getResultList();
-			List<Demon> demonList= this.entityManager.createQuery("SELECT d FROM Demon d").getResultList();
-			List<SinInstance> sinInstanceList= this.entityManager.createQuery("SELECT s FROM SinInstance s").getResultList();
-			List<CircleOfHell> circleList= this.entityManager.createQuery("SELECT c FROM CircleOfHell c").getResultList();
 			
-			for(Sin temp:sinList) this.entityManager.remove(temp);
-			for(Sinner temp:sinnerList) this.entityManager.remove(temp);
-			for(Demon temp:demonList) this.entityManager.remove(temp);
-			for(SinInstance temp:sinInstanceList) this.entityManager.remove(temp);
-			for(CircleOfHell temp:circleList) this.entityManager.remove(temp);
+			List<Sin> sinList= SinObjectModel.entityManager.createQuery("SELECT s FROM Sin s").getResultList();
+			List<Sinner> sinnerList= SinObjectModel.entityManager.createQuery("SELECT s FROM Sinner s").getResultList();
+			List<Demon> demonList= SinObjectModel.entityManager.createQuery("SELECT d FROM Demon d").getResultList();
+			List<SinInstance> sinInstanceList= SinObjectModel.entityManager.createQuery("SELECT s FROM SinInstance s").getResultList();
+			List<CircleOfHell> circleList= SinObjectModel.entityManager.createQuery("SELECT c FROM CircleOfHell c").getResultList();
+			
+			for(Sin temp:sinList) SinObjectModel.entityManager.remove(temp);
+			for(Sinner temp:sinnerList) SinObjectModel.entityManager.remove(temp);
+			for(Demon temp:demonList) SinObjectModel.entityManager.remove(temp);
+			for(SinInstance temp:sinInstanceList) SinObjectModel.entityManager.remove(temp);
+			for(CircleOfHell temp:circleList) SinObjectModel.entityManager.remove(temp);
+			
 		}
 		catch(Exception e) {e.printStackTrace();return;}
-		this.entityManager.getTransaction().commit();
+		SinObjectModel.entityManager.getTransaction().commit();
 		
 		
 		
@@ -146,7 +195,7 @@ public class SinObjectModel {
 		
 		
 		//Loading sin data
-		this.entityManager.getTransaction().begin();
+		SinObjectModel.entityManager.getTransaction().begin();
 		Sin tempSin;
 		node = doc.getElementsByTagName("Sins").item(0);
 		list = node.getChildNodes();
@@ -158,14 +207,13 @@ public class SinObjectModel {
 				tempSin.setName(attrs.getNamedItem("name").getNodeValue());
 				tempSin.setHeaviness(Float.parseFloat(attrs.getNamedItem("heaviness").getNodeValue()));
 				this.sins.put(Integer.parseInt(attrs.getNamedItem("id").getNodeValue()),tempSin);	
-				this.entityManager.persist(tempSin);
-				
+				SinObjectModel.entityManager.persist(tempSin);
 			}
 		}
-		this.entityManager.getTransaction().commit();
+		SinObjectModel.entityManager.getTransaction().commit();
 		
 		//Loading circles of hell data
-		this.entityManager.getTransaction().begin();
+		SinObjectModel.entityManager.getTransaction().begin();
 		CircleOfHell tempCircle;
 		node = doc.getElementsByTagName("CirclesOfHell").item(0);
 		list = node.getChildNodes();
@@ -177,15 +225,15 @@ public class SinObjectModel {
 				tempCircle = new CircleOfHell();
 				tempCircle.setName(attrs.getNamedItem("name").getNodeValue());
 				tempCircle.setDescription(attrs.getNamedItem("description").getNodeValue());
-				this.entityManager.persist(tempCircle);
+				SinObjectModel.entityManager.persist(tempCircle);
 				this.circlesOfHell.put(Integer.parseInt(attrs.getNamedItem("id").getNodeValue()),tempCircle);
 			}
 		}
-		this.entityManager.getTransaction().commit();
+		SinObjectModel.entityManager.getTransaction().commit();
 		
 		
 		//loading demons data
-		this.entityManager.getTransaction().begin();
+		SinObjectModel.entityManager.getTransaction().begin();
 		Demon tempDemon;
 		node = doc.getElementsByTagName("Demons").item(0);
 		list = node.getChildNodes();
@@ -200,17 +248,17 @@ public class SinObjectModel {
 				tempDemon.setName(attrs.getNamedItem("name").getNodeValue());
 				tempDemon.setSalary(Integer.parseInt(attrs.getNamedItem("salary").getNodeValue()));
 				tempDemon.setCircleOfHell(this.circlesOfHell.get(Integer.parseInt(attrs.getNamedItem("idcircleofhell").getNodeValue())));
-				this.entityManager.persist(tempDemon);
+				SinObjectModel.entityManager.persist(tempDemon);
 				this.demons.put(Integer.parseInt(attrs.getNamedItem("id").getNodeValue()), tempDemon);
 				
 			}
 		}
-		this.entityManager.getTransaction().commit();
+		SinObjectModel.entityManager.getTransaction().commit();
 		
 		
 		
 		//loading sinners data
-		this.entityManager.getTransaction().begin();
+		SinObjectModel.entityManager.getTransaction().begin();
 		Sinner tempSinner;
 		node = doc.getElementsByTagName("Sinners").item(0);
 		list = node.getChildNodes();
@@ -223,14 +271,14 @@ public class SinObjectModel {
 				tempSinner.setLastName(attrs.getNamedItem("lastname").getNodeValue());
 				tempSinner.setName(attrs.getNamedItem("name").getNodeValue());
 				tempSinner.setCircleOfHell(this.circlesOfHell.get(Integer.parseInt(attrs.getNamedItem("idcircleofhell").getNodeValue())));
-				this.entityManager.persist(tempSinner);
+				SinObjectModel.entityManager.persist(tempSinner);
 				this.sinners.put(Integer.parseInt(attrs.getNamedItem("id").getNodeValue()),tempSinner);
 			}
 		}
-		this.entityManager.getTransaction().commit();
+		SinObjectModel.entityManager.getTransaction().commit();
 		
 		//loading sin instances data
-		this.entityManager.getTransaction().begin();
+		SinObjectModel.entityManager.getTransaction().begin();
 		SinInstance tempSinInstance;
 		node = doc.getElementsByTagName("SinInstances").item(0);
 		list = node.getChildNodes();
@@ -245,12 +293,12 @@ public class SinObjectModel {
 				
 				tempSinInstance.setSinner(this.sinners.get(Integer.parseInt(attrs.getNamedItem("idsinner").getNodeValue())));
 				
-				this.entityManager.persist(tempSinInstance);
+				SinObjectModel.entityManager.persist(tempSinInstance);
 				this.sinInstances.put(Integer.parseInt(attrs.getNamedItem("id").getNodeValue()),tempSinInstance);
 				
 			}
 		}
-		this.entityManager.getTransaction().commit();
+		SinObjectModel.entityManager.getTransaction().commit();
 		System.out.println(this.sinInstances.size());
 		
 		System.out.println("Successfully downloaded XML");
@@ -260,11 +308,11 @@ public class SinObjectModel {
 	
 	public void saveXML(String docName) {
 		
-		List<Sin> sinList= this.entityManager.createQuery("SELECT s FROM Sin s").getResultList();
-		List<Sinner> sinnerList= this.entityManager.createQuery("SELECT s FROM Sinner s").getResultList();
-		List<Demon> demonList= this.entityManager.createQuery("SELECT d FROM Demon d").getResultList();
-		List<SinInstance> sinInstanceList= this.entityManager.createQuery("SELECT s FROM SinInstance s").getResultList();
-		List<CircleOfHell> circleList= this.entityManager.createQuery("SELECT c FROM CircleOfHell c").getResultList();
+		List<Sin> sinList= SinObjectModel.entityManager.createQuery("SELECT s FROM Sin s").getResultList();
+		List<Sinner> sinnerList= SinObjectModel.entityManager.createQuery("SELECT s FROM Sinner s").getResultList();
+		List<Demon> demonList= SinObjectModel.entityManager.createQuery("SELECT d FROM Demon d").getResultList();
+		List<SinInstance> sinInstanceList= SinObjectModel.entityManager.createQuery("SELECT s FROM SinInstance s").getResultList();
+		List<CircleOfHell> circleList= SinObjectModel.entityManager.createQuery("SELECT c FROM CircleOfHell c").getResultList();
 		Document doc;
 		try {
 			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -372,5 +420,9 @@ public class SinObjectModel {
 			// Выгрузка отчета в заданном формате
 			exporter.exportReport();
 		} catch (JRException e) { e.printStackTrace(); throw new UnableToExportPDFException();}
+	}
+
+	public JScrollPane getSelectedScroll() {
+		return selectedScroll;
 	}
 }

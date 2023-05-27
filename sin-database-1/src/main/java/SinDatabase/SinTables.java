@@ -2,6 +2,7 @@ package SinDatabase;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLayeredPane;
@@ -18,10 +19,10 @@ public class SinTables extends JLayeredPane{
 	private DefaultTableModel sinModel;
 	private JScrollPane circleScroll;
 	private DefaultTableModel circleModel;
-	private JScrollPane choosedScroll;
-	private JScrollPane sinIstanceScroll;
 	private DefaultTableModel sinInstanceModel;
 	private JScrollPane sinInstanceScroll;
+	
+	private JScrollPane selectedScroll;
 	
 	SinTables(int x,int y,int width,int height){
 		super();
@@ -117,7 +118,17 @@ public class SinTables extends JLayeredPane{
 		this.moveTableOnTop(circleScroll);
 	}
 	public void openSinInstanceTable() {
+		System.out.println("aaaaaaaaaaaaaaaaaa");
 		this.moveTableOnTop(sinInstanceScroll);
+	}
+	public void openSelectedTable() {
+		System.out.println("bbbbbbbbbbbbbbbbbb");
+		this.moveTableOnTop(selectedScroll);
+	}
+	public void setSelected(JScrollPane scroll) {
+		this.selectedScroll = scroll;
+		this.selectedScroll.setBounds(0,0,this.getWidth(),this.getHeight());
+		this.add(selectedScroll,JLayeredPane.DEFAULT_LAYER);
 	}
 	
 	public void LoadObjectModel(SinObjectModel objectModel) {
@@ -174,6 +185,22 @@ public class SinTables extends JLayeredPane{
 		this.sinInstanceScroll = new JScrollPane(new JTable(tableModel));
 		this.sinInstanceScroll.setBounds(0,0,this.getWidth(),this.getHeight());
 		this.add(this.sinInstanceScroll,JLayeredPane.DEFAULT_LAYER);
+		
 				
+	}
+	public void updateTables() {
+		
+		//Does not work
+		
+		this.removeAll();
+		selectedScroll.setBounds(0,0,this.getWidth(),this.getHeight());
+		this.add(selectedScroll,JLayeredPane.DEFAULT_LAYER);
+		this.add(demonScroll,JLayeredPane.DEFAULT_LAYER);
+		this.add(circleScroll,JLayeredPane.DEFAULT_LAYER);
+		this.add(sinInstanceScroll,JLayeredPane.DEFAULT_LAYER);
+		this.add(sinScroll,JLayeredPane.DEFAULT_LAYER);
+		this.add(sinnerScroll,JLayeredPane.DEFAULT_LAYER);
+		revalidate();
+		repaint();
 	}
 }

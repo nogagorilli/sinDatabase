@@ -14,8 +14,8 @@ public class RelationChooseMenu extends JMenu{
 	RelationChooseMenu(){
 		super(" = ");
 		equalItem = new JMenuItem(" = ");
-		moreItem = new JMenuItem(" > ");
-		lessItem = new JMenuItem(" < ");
+		moreItem = new JMenuItem(">");
+		lessItem = new JMenuItem("<");
 		
 		equalItem.addActionListener(new ActionListener() {
 			@Override
