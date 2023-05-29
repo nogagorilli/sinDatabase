@@ -3,7 +3,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "demons")
-public class Demon extends Being {
+public class Demon extends Being implements DBEntry{
 	
 	@Id
 	@Column(name = "idDemon")
@@ -51,5 +51,22 @@ public class Demon extends Being {
 		return this.experienceInDays;
 	}
 	
+	
+	static String[] getTableColumns() {
+		return new String[] {"ID", "NAME", "LASTNAME","EXPERIENCE","SALARY","CIRCLE OF HELL"};
+		
+	}
+	
+	
+	public String[] getTableRow() {
+		return new String[] {Integer.toString(this.getId()),this.getName(),this.getLastName(),Integer.toString(this.getExperience()),Integer.toString(this.getSalary()),this.getCircleOfHell().getName()};
+		
+	}
 
+	@Override
+	public String getShortDescription() {
+		String ret = "";
+		ret = Integer.toString(this.getId())+this.getName() + this.getLastName();
+		return ret;
+	}
 }

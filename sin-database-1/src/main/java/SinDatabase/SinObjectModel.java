@@ -164,8 +164,8 @@ public class SinObjectModel {
 		catch (ParserConfigurationException e) { e.printStackTrace(); throw new WrongXMLException(); }
 		catch (IOException e) { e.printStackTrace(); throw new WrongXMLException(); }
 		catch (SAXException e) { e.printStackTrace(); throw new WrongXMLException(); }
-		
-		
+	
+	
 		SinObjectModel.entityManager.getTransaction().begin();
 		try {
 			
@@ -183,8 +183,8 @@ public class SinObjectModel {
 			
 		}
 		catch(Exception e) {e.printStackTrace();return;}
-		SinObjectModel.entityManager.getTransaction().commit();
 		
+		SinObjectModel.entityManager.getTransaction().commit();
 		
 		
 		this.sinners = new HashMap<Integer,Sinner>();
@@ -425,4 +425,41 @@ public class SinObjectModel {
 	public JScrollPane getSelectedScroll() {
 		return selectedScroll;
 	}
+	
+	public void update() {
+		
+		List<Sin> sinList= SinObjectModel.entityManager.createQuery("SELECT s FROM Sin s").getResultList();
+		List<Sinner> sinnerList= SinObjectModel.entityManager.createQuery("SELECT s FROM Sinner s").getResultList();
+		List<Demon> demonList= SinObjectModel.entityManager.createQuery("SELECT d FROM Demon d").getResultList();
+		List<SinInstance> sinInstanceList= SinObjectModel.entityManager.createQuery("SELECT s FROM SinInstance s").getResultList();
+		List<CircleOfHell> circleList= SinObjectModel.entityManager.createQuery("SELECT c FROM CircleOfHell c").getResultList();
+		
+		
+		this.sins = new HashMap<Integer,Sin>();
+		this.sinners = new HashMap<Integer,Sinner>();
+		this.demons = new HashMap<Integer,Demon>();
+		this.sinInstances= new HashMap<Integer,SinInstance>();
+		this.circlesOfHell = new HashMap<Integer,CircleOfHell>();
+		
+		for(Sin i: sinList) {
+			this.sins.put(i.getId(), i);
+		}
+		
+		for(Sinner i: sinnerList) {
+			this.sinners.put(i.getId(), i);
+		}
+		
+		for(Demon i: demonList) {
+			this.demons.put(i.getId(), i);
+		}
+		
+		for(SinInstance i: sinInstanceList) {
+			this.sinInstances.put(i.getId(), i);
+		}
+		
+		for(CircleOfHell i: circleList) {
+			this.circlesOfHell.put(i.getId(), i);
+		}
+	}
+	
 }

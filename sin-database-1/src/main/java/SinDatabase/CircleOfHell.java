@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "circlesOfHell")
-public class CircleOfHell {
+public class CircleOfHell implements DBEntry{
 	
 	
 	
@@ -51,5 +51,23 @@ public class CircleOfHell {
 	}
 	CircleOfHell(){
 		
+	}
+	
+	static String[] getTableColumns() {
+		return new String[] {"ID", "NAME", "DESCRIPTION"};
+		
+	}
+	
+	
+	public String[] getTableRow() {
+		return new String[] {Integer.toString(this.getId()),this.getName(),this.getDescription()};
+		
+	}
+	
+	@Override
+	public String getShortDescription() {
+		String ret = "";
+		ret = Integer.toString(this.getId())+this.getName();
+		return ret;
 	}
 }

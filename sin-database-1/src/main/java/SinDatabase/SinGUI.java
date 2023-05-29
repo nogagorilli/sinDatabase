@@ -127,17 +127,56 @@ public class SinGUI extends JFrame{
         
      // Creating and adding buttons to a button panel on the left
         addButton = new sinGUIButton("    ADD    ");
+        addButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddForm a = new AddForm(objectModel.getEntityManager(), "ADD");
+				
+			}
+        	
+        });
         deleteButton = new sinGUIButton(" DELETE ");
+        deleteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sinSelectForm = new SinSelectForm();
+				sinSelectForm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				sinSelectForm.getQueryButton().setText("DELETE");
+				sinSelectForm.getQueryPanel().getQueryTextField().setText("DELETE FROM");
+				sinSelectForm.getQueryButton().addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String query = sinSelectForm.getQueryPanel().createHQLQuery();
+						//SinObjectModel.getEntityManager().getTransaction().begin();
+						try {
+							ArrayList<Object> list= (ArrayList<Object>) SinObjectModel.getEntityManager().createQuery(query).getResultList();
+//							List<Sinner> sinnerList= SinObjectModel.getEntityManager().createQuery("SELECT obj from Sinner obj WHERE  obj.name = 'Alek'").getResultList();
+							for(Object i:list) {
+								objectModel.getEntityManager().getTransaction().begin();
+								objectModel.getEntityManager().remove(i);
+								objectModel.getEntityManager().getTransaction().commit();
+							}
+							tables.LoadObjectModel(objectModel);
+							
+						}catch(Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+				});
+			}
+        });
+        
         selectButton = new sinGUIButton(" SELECT ");
         selectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sinSelectForm = new SinSelectForm();
 				sinSelectForm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				sinSelectForm.getSelectButton().addActionListener(new ActionListener() {
+				sinSelectForm.getQueryButton().addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String query = sinSelectForm.getSelectPanel().createHQLQuery();
+						String query = sinSelectForm.getQueryPanel().createHQLQuery();
 						//SinObjectModel.getEntityManager().getTransaction().begin();
 						try {
 							ArrayList<Object> list= (ArrayList<Object>) SinObjectModel.getEntityManager().createQuery(query).getResultList();

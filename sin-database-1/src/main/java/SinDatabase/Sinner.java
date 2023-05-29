@@ -1,16 +1,19 @@
 package SinDatabase;
 
 import java.util.Date;
-
+import java.util.Set;
 import java.util.ArrayList;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 
 @Entity
 @Table(name = "sinners")
-public class Sinner extends Being {
+public class Sinner extends Being implements DBEntry{
 	
 	
 	@Id
@@ -22,6 +25,11 @@ public class Sinner extends Being {
 	private Date dateOfDeath;
 	
 	
+	
+	@OneToMany(mappedBy ="sinner",cascade = CascadeType.ALL,fetch=FetchType.EAGER, orphanRemoval = true)
+	@Embedded
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Set<SinInstance> sinInstances;
 	
 
 	
@@ -60,4 +68,23 @@ public class Sinner extends Being {
 		
 	}
 	
+	
+	static String[] getTableColumns() {
+		return new String[] {"ID", "NAME", "LASTNAME","DATE OF DEATH","CIRCLE OF HELL"};
+		
+	}
+	
+	
+	@Override
+	public String[] getTableRow() {
+		
+		return new String[] {Integer.toString(this.getId()),this.getName(),this.getLastName(),this.getDateOfDeath().toString(),this.getCircleOfHell().getName()};
+	}
+	
+	@Override
+	public String getShortDescription() {
+		String ret = "";
+		ret = Integer.toString(this.getId())+this.getName() + this.getLastName();
+		return ret;
+	}
 }

@@ -7,19 +7,20 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "sinInstances")
-public class SinInstance {
+@Embeddable
+public class SinInstance implements DBEntry{
 	
 	@Id
 	@Column(name="idSinInstance")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(targetEntity =Sin.class,cascade=CascadeType.DETACH,fetch = FetchType.LAZY)
     @JoinColumn(name="idForeignSin")
 	private Sin sin;
 	
 	
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(targetEntity =Sinner.class,cascade=CascadeType.DETACH,fetch = FetchType.LAZY)
     @JoinColumn(name="idForeignSinner")
 	private Sinner sinner;
 
@@ -57,5 +58,21 @@ public class SinInstance {
 	
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	static String[] getTableColumns() {
+		return new String[] {"ID", "SINNER", "SIN","DATE"};
+		
+	}
+	public String[] getTableRow() {
+		return new String[] {Integer.toString(this.getId()),this.getSinner().getName()+" "+this.getSinner().getLastName(),this.getSin().getName(),this.getDate().toString()};
+		
+	}
+	@Override
+	public String getShortDescription() {
+		String ret = "";
+		ret = Integer.toString(this.getId())+this.getSinner().getName() +" " +this.getSinner().getLastName() 
+				+" commited " + this.getSin().getName() + " at " + this.getDate().toString();
+		return ret;
 	}
 }

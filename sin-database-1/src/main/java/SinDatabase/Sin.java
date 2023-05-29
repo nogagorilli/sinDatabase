@@ -1,12 +1,17 @@
 package SinDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name = "sins")
-public class Sin {
+public class Sin implements DBEntry{
 	
 	@Id
 	@Column(name = "idSins")
@@ -19,7 +24,10 @@ public class Sin {
 	@Column(name = "heaviness")
 	private float heaviness;
 	
-	
+	@OneToMany(mappedBy ="sin",cascade = CascadeType.ALL,fetch=FetchType.EAGER, orphanRemoval = true)
+	@Embedded
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Set<SinInstance> sinInstances;
 	
 	Sin(String newName) {
 		this.name = newName;
@@ -67,5 +75,21 @@ public class Sin {
 		this.heaviness = h;
 	}
 	
+	static String[] getTableColumns() {
+		return new String[] {"ID", "NAME", "HEAVINESS"};
+		
+	}
 	
+	
+	public String[] getTableRow() {
+		return new String[] {Integer.toString(this.getId()),this.getName(),Float.toString(this.getHeaviness())};
+		
+	}
+	
+	@Override
+	public String getShortDescription() {
+		String ret = "";
+		ret = Integer.toString(this.getId())+" "+this.getName()+" heaviness:" + Float.toString(this.getHeaviness());
+		return ret;
+	}
 }
