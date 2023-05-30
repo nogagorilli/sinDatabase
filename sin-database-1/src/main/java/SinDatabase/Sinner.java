@@ -118,4 +118,14 @@ public class Sinner extends Being implements DBEntry{
 		ret = Integer.toString(this.getId())+this.getName() + this.getLastName();
 		return ret;
 	}
+	
+	@Override
+	public Sinner clone() throws CloneNotSupportedException {
+		Sinner clone = new Sinner();
+		clone.setCircleOfHell(getCircleOfHell());
+		clone.setDateOfDeath(dateOfDeath);
+		clone.setName(name);
+		clone.setLastName(lastName);
+		return clone;
+	}
 }

@@ -13,6 +13,17 @@ public class DemonAddForm extends AddForm{
 	Demon entity = new Demon();
 	public void setEntity(Demon entity) {
 		this.entity = entity;
+		this.namePanel.getAttrValueField().setText(entity.getName());
+		this.lastNamePanel.getAttrValueField().setText(entity.getLastName());
+		this.experiencePanel.getAttrValueField().setText(String.valueOf( entity.getExperience()));
+		this.salaryPanel.getAttrValueField().setText(String.valueOf( entity.getExperience()));
+		try {
+			this.circleChoosePanel.getAttrValueButton().setText(entity.getCircleOfHell().getShortDescription());
+		}catch(Exception ex) {
+			this.circleChoosePanel.getAttrValueButton().setText("undefined");
+		}
+		this.circleChoosePanel.setEntry(entity.getCircleOfHell());
+		
 	}
 
 	AttributeValuePanel namePanel;
@@ -43,7 +54,7 @@ public class DemonAddForm extends AddForm{
 		lastNamePanel.getAttrValueField().addCaretListener(new CaretListener() {
 			@Override
 			public void caretUpdate(CaretEvent e) {
-				entity.setLastName(namePanel.getAttrValueField().getText());
+				entity.setLastName(lastNamePanel.getAttrValueField().getText());
 			}
 		});
 		
@@ -93,5 +104,6 @@ public class DemonAddForm extends AddForm{
 		// TODO Auto-generated method stub
 		return this.entity;
 	}
+	
 
 }

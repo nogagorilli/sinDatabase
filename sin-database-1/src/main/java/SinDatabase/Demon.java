@@ -102,4 +102,15 @@ public class Demon extends Being implements DBEntry{
 		ret = Integer.toString(this.getId())+this.getName() + this.getLastName();
 		return ret;
 	}
+	
+	@Override
+	public Demon clone() throws CloneNotSupportedException {
+		Demon clone = new Demon();
+		clone.setCircleOfHell(getCircleOfHell());
+		clone.setLastName(lastName);
+		clone.setName(name);
+		clone.setSalary(salary);
+		clone.setExperience(experienceInDays);
+		return clone;
+	}
 }

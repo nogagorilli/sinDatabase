@@ -99,6 +99,7 @@ abstract class AddForm  extends JFrame{
 
 	public void setEntity(DBEntry entity) {
 		this.entity = entity;
+		
 	}
 
 	protected class AttributeValuePanel extends JPanel{
@@ -115,7 +116,7 @@ abstract class AddForm  extends JFrame{
 			setAttrNameField(new JTextPane());
 			this.getAttrNameField().setText(attrName);
 			this.getAttrNameField().setPreferredSize(new Dimension(200, 20));
-			this.getAttrNameField().setFocusable(false);;
+			this.getAttrNameField().setFocusable(false);
 			
 			setAttrValueField(new JTextField("value"));
 			this.getAttrValueField().setPreferredSize(new Dimension(200, 20));
@@ -142,6 +143,12 @@ abstract class AddForm  extends JFrame{
 		private JTextPane attrNameField;
 		private DBEntry entry;
 		private JButton attrValueButton;
+		public JButton getAttrValueButton() {
+			return attrValueButton;
+		}
+		public void setAttrValueButton(JButton attrValueButton) {
+			this.attrValueButton = attrValueButton;
+		}
 		private ArrayList attrList;
 
 		AttributeChoosePanel(JFrame parentJFrame, String attrName,ArrayList attrList){

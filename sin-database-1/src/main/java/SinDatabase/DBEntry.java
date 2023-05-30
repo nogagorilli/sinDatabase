@@ -1,6 +1,6 @@
 package SinDatabase;
 
-public interface DBEntry {
+public interface DBEntry extends Cloneable{
 	static String[] getTableColumns() {
 		return null;
 	}

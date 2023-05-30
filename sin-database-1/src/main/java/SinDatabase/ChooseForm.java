@@ -52,11 +52,8 @@ public class ChooseForm extends JDialog{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				try {
-					parentChoosePanel.setEntry(entries.get(list.getSelectedIndex()));
-				}catch(Exception ex) {
-					
-				}
+				parentChoosePanel.setEntry(entries.get(list.getSelectedIndex()));
+				
 			}
 	    	
 	    });

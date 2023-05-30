@@ -40,4 +40,5 @@ public abstract class Being {
 	public CircleOfHell getCircleOfHell() {
 		return this.circle;
 	}
+	
 }

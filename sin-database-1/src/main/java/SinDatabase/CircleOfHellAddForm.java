@@ -47,5 +47,10 @@ public class CircleOfHellAddForm extends AddForm{
 	DBEntry getEntity() {
 		return this.entity;
 	}
-
+	public void setEntity(CircleOfHell entity) {
+		this.entity = entity;
+		this.namePanel.getAttrValueField().setText(entity.getName());
+		this.descriptionPanel.getAttrValueField().setText(entity.getDescription());
+		
+	}
 }

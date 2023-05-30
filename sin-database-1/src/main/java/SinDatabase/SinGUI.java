@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 public class SinGUI extends JFrame{
-	
+	final private SinGUI sinGUI = this;
 	
 	
 	
@@ -44,7 +44,7 @@ public class SinGUI extends JFrame{
 	
 	
 	//Panels to display information
-	private SinTables tables;
+	SinTables tables;
 
 	
 	//Buttons for action selection
@@ -53,6 +53,7 @@ public class SinGUI extends JFrame{
 	private sinGUIButton addDemonButton;
 	private sinGUIButton addCircleButton;
 	private sinGUIButton addSinInstanceButton;
+	private sinGUIButton editButton;
 	private sinGUIButton deleteButton;
 	private sinGUIButton selectButton;
 	private sinGUIButton saveButton;
@@ -357,6 +358,16 @@ public class SinGUI extends JFrame{
         		}
         	}
         });
+        editButton = new sinGUIButton("EDIT");
+        editButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EditForm edit = new EditForm(objectModel,sinGUI);
+				
+			}
+        	
+        });
         
     	buttonPanel.add(selectButton);
     	buttonPanel.add(deleteButton);
@@ -365,6 +376,7 @@ public class SinGUI extends JFrame{
     	buttonPanel.add(addDemonButton);
     	buttonPanel.add(addCircleButton);
     	buttonPanel.add(addSinInstanceButton);
+    	buttonPanel.add(editButton);
     	buttonPanel.add(saveButton);
     	buttonPanel.add(loadButton);
     	buttonPanel.add(exportButton);

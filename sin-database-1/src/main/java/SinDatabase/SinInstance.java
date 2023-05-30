@@ -97,4 +97,13 @@ public class SinInstance implements DBEntry{
 				+" commited " + this.getSin().getName() + " at " + this.getDate().toString();
 		return ret;
 	}
+	
+	@Override
+	public SinInstance clone() throws CloneNotSupportedException {
+		SinInstance clone = new SinInstance();
+		clone.setDate(date);
+		clone.setSin(sin);
+		clone.setSinner(sinner);
+		return clone;
+	}
 }

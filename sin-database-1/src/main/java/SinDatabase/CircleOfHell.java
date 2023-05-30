@@ -87,4 +87,11 @@ public class CircleOfHell implements DBEntry{
 		ret = Integer.toString(this.getId())+this.getName();
 		return ret;
 	}
+	@Override
+	public CircleOfHell clone() throws CloneNotSupportedException {
+		CircleOfHell clone = new CircleOfHell();
+		clone.setDescription(description);
+		clone.setName(name);
+		return clone;
+	}
 }

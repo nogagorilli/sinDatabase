@@ -109,4 +109,11 @@ public class Sin implements DBEntry{
 		ret = Integer.toString(this.getId())+" "+this.getName()+" heaviness:" + Float.toString(this.getHeaviness());
 		return ret;
 	}
+	@Override
+	public Sin clone() throws CloneNotSupportedException {
+		Sin clone = new Sin();
+		clone.setHeaviness(heaviness);
+		clone.setName(name);
+		return clone;
+	}
 }

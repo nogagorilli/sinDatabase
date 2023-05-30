@@ -12,7 +12,19 @@ import javax.swing.event.CaretListener;
 public class SinnerAddForm extends AddForm{
 	Sinner entity = new Sinner();
 	public void setEntity(Sinner entity) {
+		System.out.println("setting an entity");
 		this.entity = entity;
+		this.namePanel.getAttrValueField().setText(entity.getName());
+		this.lastNamePanel.getAttrValueField().setText(entity.getLastName());
+		this.dateOfDeathPanel.getAttrValueField().setText(entity.getDateOfDeath().toString());
+		try {
+			this.circleChoosePanel.getAttrValueButton().setText(entity.getCircleOfHell().getShortDescription());
+		}catch(Exception ex) {
+			this.circleChoosePanel.getAttrValueButton().setText("undefined");
+		}
+		this.circleChoosePanel.setEntry(entity.getCircleOfHell());
+		revalidate();
+		
 	}
 
 	AttributeValuePanel namePanel;
@@ -79,5 +91,5 @@ public class SinnerAddForm extends AddForm{
 		System.out.println(this.entity.getDateOfDeath());
 		return this.entity;
 	}
-
+	
 }

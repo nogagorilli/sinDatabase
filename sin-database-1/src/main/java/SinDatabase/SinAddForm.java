@@ -48,5 +48,15 @@ public class SinAddForm extends AddForm{
 		
 		return this.entity;
 	}
+	
+	public void setEntity(Sin entity) {
+		System.out.println("setting an entity");
+		this.entity = entity;
+		this.namePanel.getAttrValueField().setText(entity.getName());
+		this.heavinessPanel.getAttrValueField().setText(String.valueOf( entity.getHeaviness()));
+		revalidate();
+		
+	}
+	
 
 }
