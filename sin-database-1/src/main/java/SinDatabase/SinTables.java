@@ -72,7 +72,11 @@ public class SinTables extends JLayeredPane{
         this.setBackground(Color.DARK_GRAY);
         this.setBounds(x,y,width,height);
         this.setLayout(null);
-        
+        sinScroll.setFocusable(false);
+        demonScroll.setFocusable(false);
+        sinnerScroll.setFocusable(false);
+        sinInstanceScroll.setFocusable(false);
+        circleScroll.setFocusable(false);
         this.add(sinScroll,JLayeredPane.DEFAULT_LAYER);
         this.add(demonScroll,JLayeredPane.DEFAULT_LAYER);
         this.add(sinnerScroll,JLayeredPane.DEFAULT_LAYER);
@@ -117,6 +121,8 @@ public class SinTables extends JLayeredPane{
 	}
 	public void setSelected(JScrollPane scroll) {
 		this.selectedScroll = scroll;
+		this.selectedScroll.setFocusable(false);
+		this.selectedScroll.setEnabled(false);
 		this.selectedScroll.setBounds(0,0,this.getWidth(),this.getHeight());
 		this.add(selectedScroll,JLayeredPane.DEFAULT_LAYER);
 		this.openSelectedTable();

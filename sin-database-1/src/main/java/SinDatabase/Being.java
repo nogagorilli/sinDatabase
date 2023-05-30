@@ -5,10 +5,10 @@ import javax.persistence.*;
 public abstract class Being {
 
 	@Column(name = "name")
-	protected String name;
+	protected String name = "UNDEFINED";
 	
 	@Column(name = "lastName")
-	protected String lastName; 
+	protected String lastName = "UNDEFINED"; 
 	
 
 	public String getName(){

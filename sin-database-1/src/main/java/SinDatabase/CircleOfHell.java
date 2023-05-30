@@ -60,7 +60,24 @@ public class CircleOfHell implements DBEntry{
 	
 	
 	public String[] getTableRow() {
-		return new String[] {Integer.toString(this.getId()),this.getName(),this.getDescription()};
+		//return new String[] {Integer.toString(this.getId()),this.getName(),this.getDescription()};
+		String[] ret = new String[] {"","",""};
+		try {
+			ret[0] = Integer.toString(this.getId());
+		}catch(Exception ex) {
+			ret[0] = "undefined";
+		}
+		try {
+			ret[1] = this.getName();
+		}catch(Exception ex) {
+			ret[1] = "undefined";
+		}
+		try {
+			ret[2] = this.getDescription();
+		}catch(Exception ex) {
+			ret[2] = "undefined";
+		}
+		return ret;
 		
 	}
 	

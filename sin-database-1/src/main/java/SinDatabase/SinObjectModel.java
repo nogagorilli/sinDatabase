@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -267,7 +267,7 @@ public class SinObjectModel {
 			if(elem.getNodeName()=="Sinner") {
 				NamedNodeMap attrs = elem.getAttributes();
 				tempSinner = new Sinner();
-				tempSinner.setDateOfDeath(new Date());
+				tempSinner.setDateOfDeath(Date.valueOf(attrs.getNamedItem("dateofdeath").getNodeValue()));
 				tempSinner.setLastName(attrs.getNamedItem("lastname").getNodeValue());
 				tempSinner.setName(attrs.getNamedItem("name").getNodeValue());
 				tempSinner.setCircleOfHell(this.circlesOfHell.get(Integer.parseInt(attrs.getNamedItem("idcircleofhell").getNodeValue())));
@@ -288,7 +288,7 @@ public class SinObjectModel {
 				NamedNodeMap attrs = elem.getAttributes();
 				
 				tempSinInstance = new SinInstance();
-				tempSinInstance.setDate(new Date());
+				tempSinInstance.setDate(Date.valueOf(attrs.getNamedItem("date").getNodeValue()));
 				tempSinInstance.setSin(this.sins.get(Integer.parseInt(attrs.getNamedItem("idsin").getNodeValue())));
 				
 				tempSinInstance.setSinner(this.sinners.get(Integer.parseInt(attrs.getNamedItem("idsinner").getNodeValue())));
@@ -461,5 +461,10 @@ public class SinObjectModel {
 			this.circlesOfHell.put(i.getId(), i);
 		}
 	}
-	
+	public void loadSingleDBEntry(DBEntry entry) {
+		SinObjectModel.getEntityManager().getTransaction().begin();
+		SinObjectModel.getEntityManager().persist(entry);
+		SinObjectModel.getEntityManager().getTransaction().commit();
+		this.update();
+	}
 }

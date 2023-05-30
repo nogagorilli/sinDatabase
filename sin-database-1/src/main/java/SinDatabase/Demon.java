@@ -59,7 +59,40 @@ public class Demon extends Being implements DBEntry{
 	
 	
 	public String[] getTableRow() {
-		return new String[] {Integer.toString(this.getId()),this.getName(),this.getLastName(),Integer.toString(this.getExperience()),Integer.toString(this.getSalary()),this.getCircleOfHell().getName()};
+		
+		//return new String[] {Integer.toString(this.getId()),this.getName(),this.getLastName(),Integer.toString(this.getExperience()),Integer.toString(this.getSalary()),this.getCircleOfHell().getName()};
+		String[] ret = new String[] {"","","","","",""};
+		try {
+			ret[0] = Integer.toString(this.getId());
+		}catch(Exception ex) {
+			ret[0] = "undefined";
+		}
+		try {
+			ret[1] = this.getName();
+		}catch(Exception ex) {
+			ret[1] = "undefined";
+		}
+		try {
+			ret[2] = this.getLastName();
+		}catch(Exception ex) {
+			ret[2] = "undefined";
+		}
+		try {
+			ret[3] = Integer.toString(this.getExperience());
+		}catch(Exception ex) {
+			ret[3] = "undefined";
+		}
+		try {
+			ret[4] = Integer.toString(this.getSalary());
+		}catch(Exception ex) {
+			ret[4] = "undefined";
+		}
+		try {
+			ret[5] = this.getCircleOfHell().getName();
+		}catch(Exception ex) {
+			ret[5] = "undefined";
+		}
+		return ret;
 		
 	}
 

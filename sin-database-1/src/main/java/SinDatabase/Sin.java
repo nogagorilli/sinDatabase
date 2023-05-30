@@ -19,10 +19,10 @@ public class Sin implements DBEntry{
 	private int id;
 	
 	@Column(name = "name")
-	private String name;
+	private String name = "UNDEFINED";
 	
 	@Column(name = "heaviness")
-	private float heaviness;
+	private float heaviness = 0;
 	
 	@OneToMany(mappedBy ="sin",cascade = CascadeType.ALL,fetch=FetchType.EAGER, orphanRemoval = true)
 	@Embedded
@@ -82,8 +82,25 @@ public class Sin implements DBEntry{
 	
 	
 	public String[] getTableRow() {
-		return new String[] {Integer.toString(this.getId()),this.getName(),Float.toString(this.getHeaviness())};
+		//return new String[] {Integer.toString(this.getId()),this.getName(),Float.toString(this.getHeaviness())};
+		String[] ret = new String[] {"","",""};
+		try {
+			ret[0] = Integer.toString(this.getId());
+		}catch(Exception ex) {
+			ret[0] = "undefined";
+		}
+		try {
+			ret[1] = this.getName();
+		}catch(Exception ex) {
+			ret[1] = "undefined";
+		}
+		try {
+			ret[2] = Float.toString(this.getHeaviness());
+		}catch(Exception ex) {
+			ret[2] = "undefined";
+		}
 		
+		return ret;
 	}
 	
 	@Override

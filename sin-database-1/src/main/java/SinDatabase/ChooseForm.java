@@ -13,25 +13,31 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 
+import SinDatabase.AddForm.AttributeChoosePanel;
+
 public class ChooseForm extends JDialog{
 	JList list;
-
 	DefaultListModel model;
-
+	private AttributeChoosePanel parentChoosePanel;
+	private ArrayList<DBEntry> entries;
 	int counter = 15;
-	
-	ChooseForm(JFrame parent, ArrayList<DBEntry> entryList){
-		super(parent,true);
+	private JButton okButton;
+	private JButton cancelButton;
+	ChooseForm(JFrame parentJFrame,AttributeChoosePanel parentChoosePanel, ArrayList<DBEntry> entryList){
+		super(parentJFrame,true);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setParentChoosePanel(parentChoosePanel);
+		this.setEntries(entryList);
 		
 		this.setSize(400, 250);
+		this.setLocation(500, 400);
 		this.setResizable(false);
 		setLayout(new BorderLayout());
 	    model = new DefaultListModel();
 	    list = new JList(model);
 	    JScrollPane pane = new JScrollPane(list);
-	    JButton addButton = new JButton("CANCEL");
-	    JButton removeButton = new JButton("OK");
+	    cancelButton = new JButton("CANCEL");
+	    okButton = new JButton("OK");
 	    try {
 		    for(DBEntry el:entryList) {
 		    	model.addElement(el.getShortDescription());
@@ -40,10 +46,49 @@ public class ChooseForm extends JDialog{
 	    	System.out.println("list is null");
 	    }
 	    add(pane, BorderLayout.NORTH);
-	    add(addButton, BorderLayout.WEST);
-	    add(removeButton, BorderLayout.EAST);
+	    add(cancelButton, BorderLayout.WEST);
+	    okButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				try {
+					parentChoosePanel.setEntry(entries.get(list.getSelectedIndex()));
+				}catch(Exception ex) {
+					
+				}
+			}
+	    	
+	    });
+	    
+	    cancelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+	    	
+	    });
+	    add(okButton, BorderLayout.EAST);
 		
 	    this.setVisible(true);
 		revalidate();
+	}
+
+	public AttributeChoosePanel getParentChoosePanel() {
+		return parentChoosePanel;
+	}
+
+	public void setParentChoosePanel(AttributeChoosePanel parentChoosePanel) {
+		this.parentChoosePanel = parentChoosePanel;
+	}
+
+	public ArrayList<DBEntry> getEntries() {
+		return entries;
+	}
+
+	public void setEntries(ArrayList<DBEntry> entries) {
+		this.entries = entries;
 	}
 }

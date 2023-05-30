@@ -1,6 +1,6 @@
 package SinDatabase;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class Sinner extends Being implements DBEntry{
 	private int id;
 	
 	@Column(name = "dateOfDeath")
-	private Date dateOfDeath;
+	private Date dateOfDeath = new Date(0);
 	
 	
 	
@@ -47,8 +47,8 @@ public class Sinner extends Being implements DBEntry{
 		return this.dateOfDeath;
 	}
 	
-	public void setDateOfDeath(Date d) {
-		this.dateOfDeath = d;
+	public void setDateOfDeath(Date date) {
+		this.dateOfDeath = date;
 	}
 	
 
@@ -65,6 +65,8 @@ public class Sinner extends Being implements DBEntry{
 		
 	}
 	public Sinner() {
+		this.setDateOfDeath(new Date(0));
+		System.out.println(this.getDateOfDeath());
 		
 	}
 	
@@ -78,7 +80,36 @@ public class Sinner extends Being implements DBEntry{
 	@Override
 	public String[] getTableRow() {
 		
-		return new String[] {Integer.toString(this.getId()),this.getName(),this.getLastName(),this.getDateOfDeath().toString(),this.getCircleOfHell().getName()};
+		//return new String[] {Integer.toString(this.getId()),this.getName(),this.getLastName(),this.getDateOfDeath().toString(),this.getCircleOfHell().getName()};
+		
+		String[] ret = new String[] {"","","","",""};
+		try {
+			ret[0] = Integer.toString(this.getId());
+		}catch(Exception ex) {
+			ret[0] = "undefined";
+		}
+		try {
+			ret[1] = this.getName();
+		}catch(Exception ex) {
+			ret[1] = "undefined";
+		}
+		try {
+			ret[2] = this.getLastName();
+		}catch(Exception ex) {
+			ret[2] = "undefined";
+		}
+		try {
+			ret[3] = this.getDateOfDeath().toString();
+		}catch(Exception ex) {
+			ret[3] = "undefined";
+		}
+		try {
+			ret[4] = this.getCircleOfHell().getName();
+		}catch(Exception ex) {
+			ret[4] = "undefined";
+		}
+		
+		return ret;
 	}
 	
 	@Override

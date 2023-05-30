@@ -65,7 +65,29 @@ public class SinInstance implements DBEntry{
 		
 	}
 	public String[] getTableRow() {
-		return new String[] {Integer.toString(this.getId()),this.getSinner().getName()+" "+this.getSinner().getLastName(),this.getSin().getName(),this.getDate().toString()};
+		//return new String[] {Integer.toString(this.getId()),this.getSinner().getName()+" "+this.getSinner().getLastName(),this.getSin().getName(),this.getDate().toString()};
+		String[] ret = new String[] {"","","","",""};
+		try {
+			ret[0] = Integer.toString(this.getId());
+		}catch(Exception ex) {
+			ret[0] = "undefined";
+		}
+		try {
+			ret[1] = this.getSinner().getName()+" "+this.getSinner().getLastName();
+		}catch(Exception ex) {
+			ret[1] = "undefined";
+		}
+		try {
+			ret[2] = this.getSin().getName();
+		}catch(Exception ex) {
+			ret[2] = "undefined";
+		}
+		try {
+			ret[3] = this.getDate().toString();
+		}catch(Exception ex) {
+			ret[3] = "undefined";
+		}
+		return ret;
 		
 	}
 	@Override

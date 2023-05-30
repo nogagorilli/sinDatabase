@@ -23,19 +23,29 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-public class AddForm  extends JFrame{
-	private JPanel mainPanel;
+abstract class AddForm  extends JFrame{
+	protected JPanel mainPanel;
 	private JPanel topPanel;
 	private DBEntry entity;
-	private EntityManager entityManager;
+	private SinObjectModel objectModel;
+	
+	public SinObjectModel getObjectModel() {
+		return objectModel;
+	}
+
+
+	private void setObjectModel(SinObjectModel objectModel) {
+		this.objectModel = objectModel;
+	}
+
 	private JButton addButton;
 	private JButton cancelButton;
-	AddForm(EntityManager em, String name){
+	AddForm(SinObjectModel om, String name){
 		super(name);
-		this.setEntityManager(em);
+		this.setObjectModel(om);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setSize(600, 300);
-		
+		this.setLocation(500, 400);
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(400,400));
 		mainPanel.setBackground(Color.GREEN);
@@ -48,28 +58,26 @@ public class AddForm  extends JFrame{
 		this.add(topPanel,BorderLayout.PAGE_START);
 		this.add(mainPanel,BorderLayout.CENTER);
 		mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
-		for(int i =0;i<3;i++) {
-			AttributeValuePanel a = new AttributeValuePanel("abobus");
-			AttributeChoosePanel b = new AttributeChoosePanel("sus"); 
-			mainPanel.add(a);
-			mainPanel.add(b);
-			b.setParentJFrame(this);
-		}
+		
 		
 		addButton = new JButton("ADD");
 		cancelButton = new JButton("CANCEL");
+		cancelButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				
+			}
+			
+		});
 		this.add(cancelButton,BorderLayout.WEST);
 		this.add(addButton,BorderLayout.EAST);
 		this.setVisible(true);
 	}
 	
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-
-	private void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+	
+	
 
 	public JButton getAddButton() {
 		return addButton;
@@ -87,20 +95,26 @@ public class AddForm  extends JFrame{
 		this.cancelButton = cancelButton;
 	}
 
+	abstract DBEntry getEntity();
+
+	public void setEntity(DBEntry entity) {
+		this.entity = entity;
+	}
+
 	protected class AttributeValuePanel extends JPanel{
 		private JTextPane attrNameField;
 		private JTextField attrValueField;
 		
 		AttributeValuePanel(String attrName){
 			super();
-			this.setMaximumSize(new Dimension(400,40));
+			this.setMaximumSize(new Dimension(500,40));
 			this.setBackground(Color.red);
 			this.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 			this.setLayout(new FlowLayout(FlowLayout.LEADING));
 			
 			setAttrNameField(new JTextPane());
 			this.getAttrNameField().setText(attrName);
-			this.getAttrNameField().setPreferredSize(new Dimension(100, 20));
+			this.getAttrNameField().setPreferredSize(new Dimension(200, 20));
 			this.getAttrNameField().setFocusable(false);;
 			
 			setAttrValueField(new JTextField("value"));
@@ -126,20 +140,23 @@ public class AddForm  extends JFrame{
 		final private AttributeChoosePanel attributeChoosePanel = this;
 		private JFrame parentJFrame;
 		private JTextPane attrNameField;
-
+		private DBEntry entry;
 		private JButton attrValueButton;
+		private ArrayList attrList;
 
-		AttributeChoosePanel(String attrName){
+		AttributeChoosePanel(JFrame parentJFrame, String attrName,ArrayList attrList){
 			super();
-			this.setMaximumSize(new Dimension(400,40));
+			this.setMaximumSize(new Dimension(500,40));
 			this.setBackground(Color.red);
 			this.setBorder(BorderFactory.createLineBorder(Color.black, 3));
 			this.setLayout(new FlowLayout(FlowLayout.LEADING));
-			
+			this.setParentJFrame(parentJFrame);
 			setAttrNameField(new JTextPane());
 			this.getAttrNameField().setText(attrName);
-			this.getAttrNameField().setPreferredSize(new Dimension(100, 20));
+			this.getAttrNameField().setPreferredSize(new Dimension(200, 20));
 			this.getAttrNameField().setFocusable(false);;
+			
+			this.attrList = attrList;
 			
 			attrValueButton = new JButton("value");
 			attrValueButton.addActionListener(new ActionListener() {
@@ -147,8 +164,8 @@ public class AddForm  extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					
-					ChooseForm c = new ChooseForm(attributeChoosePanel.getParentJFrame(), null);
-					
+					ChooseForm c = new ChooseForm(attributeChoosePanel.getParentJFrame(),attributeChoosePanel, attrList);
+					attrValueButton.setText(entry.getShortDescription());
 					System.out.println("was closed");
 					
 				}
@@ -156,14 +173,6 @@ public class AddForm  extends JFrame{
 			});
 			this.add(attrNameField);
 			this.add(attrValueButton);
-			
-			
-			
-			
-		    
-		    
-		    
-			
 			
 			
 		}
@@ -178,6 +187,12 @@ public class AddForm  extends JFrame{
 		}
 		public void setParentJFrame(JFrame parentJFrame) {
 			this.parentJFrame = parentJFrame;
+		}
+		public DBEntry getEntry() {
+			return entry;
+		}
+		public void setEntry(DBEntry entry) {
+			this.entry = entry;
 		}
 
 	}

@@ -1,12 +1,14 @@
 package SinDatabase;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -46,7 +48,11 @@ public class SinGUI extends JFrame{
 
 	
 	//Buttons for action selection
-	private sinGUIButton addButton;
+	private sinGUIButton addSinnerButton;
+	private sinGUIButton addSinButton;
+	private sinGUIButton addDemonButton;
+	private sinGUIButton addCircleButton;
+	private sinGUIButton addSinInstanceButton;
 	private sinGUIButton deleteButton;
 	private sinGUIButton selectButton;
 	private sinGUIButton saveButton;
@@ -72,6 +78,8 @@ public class SinGUI extends JFrame{
 	        this.setMinimumSize(new Dimension(90,30));
 	        this.setForeground(Color.white);
 	        this.setFocusable(false);
+	        
+	        this.setSize(new Dimension(200,20));
 		}
 	}
 	
@@ -99,7 +107,7 @@ public class SinGUI extends JFrame{
         demonPanel.setBorder(demonBorder);
         demonPanel.setLayout(null);
         demonPanel.setBackground(Color.DARK_GRAY);
-        demonPanel.setBounds(0,0,130,100);
+        demonPanel.setBounds(20,0,150,100);
         
         
         JLabel demonLabel = new JLabel();
@@ -115,7 +123,7 @@ public class SinGUI extends JFrame{
         
         
      // Adding tables to display information
-        tables = new SinTables(demonLabel.getWidth(),demonLabel.getHeight(),WIDTH-demonLabel.getWidth(),HEIGHT -demonLabel.getHeight());
+        tables = new SinTables(demonPanel.getWidth(),demonLabel.getHeight(),WIDTH-demonPanel.getWidth(),HEIGHT -demonLabel.getHeight());
         
      // Adding a panel for buttons on the left
         buttonPanel = new JPanel();
@@ -123,19 +131,138 @@ public class SinGUI extends JFrame{
         buttonPanel.setBounds(0,demonPanel.getY()+demonPanel.getHeight(),demonPanel.getWidth(),620);
         buttonPanel.setBorder(demonBorder);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+
         
         
      // Creating and adding buttons to a button panel on the left
-        addButton = new sinGUIButton("    ADD    ");
-        addButton.addActionListener(new ActionListener() {
+        addSinInstanceButton = new sinGUIButton("ADD SIN INSTANCE");
+        addSinInstanceButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				AddForm a = new AddForm(objectModel.getEntityManager(), "ADD");
+				SinInstanceAddForm addForm = new SinInstanceAddForm(objectModel, "ADD");
+				addForm.setEntity(new SinInstance());
+				addForm.getAddButton().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO 
+						((SinInstance) addForm.getEntity()).setSinner((Sinner) addForm.getSinnerChoosePanel().getEntry());
+						((SinInstance) addForm.getEntity()).setSin((Sin) addForm.getSinChoosePanel().getEntry());
+						DBEntry ent = addForm.getEntity();
+						objectModel.loadSingleDBEntry(ent);
+						addForm.dispose();
+						tables.LoadObjectModel(objectModel);
+					}
+					
+				});
 				
 			}
         	
         });
+        
+        
+        addCircleButton = new sinGUIButton("ADD CIRCLE OF HELL");
+        addCircleButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CircleOfHellAddForm addForm = new CircleOfHellAddForm(objectModel, "ADD");
+				addForm.setEntity(new Demon());
+				addForm.getAddButton().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO 
+						DBEntry ent = addForm.getEntity();
+						objectModel.loadSingleDBEntry(ent);
+						addForm.dispose();
+						tables.LoadObjectModel(objectModel);
+					}
+					
+				});
+				
+			}
+        	
+        });
+        
+        
+        addDemonButton = new sinGUIButton("    ADD DEMON  ");
+        addDemonButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DemonAddForm addForm = new DemonAddForm(objectModel, "ADD");
+				addForm.setEntity(new Demon());
+				addForm.getAddButton().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO 
+						((Demon) addForm.getEntity()).setCircleOfHell((CircleOfHell) addForm.getCircleChoosePanel().getEntry());
+						DBEntry ent = addForm.getEntity();
+						objectModel.loadSingleDBEntry(ent);
+						addForm.dispose();
+						tables.LoadObjectModel(objectModel);
+					}
+					
+				});
+				
+			}
+        	
+        });
+        
+        
+        
+        addSinnerButton = new sinGUIButton("    ADD SINNER   ");
+        addSinnerButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SinnerAddForm addForm = new SinnerAddForm(objectModel, "ADD");
+				addForm.setEntity(new Sin());
+				addForm.getAddButton().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO 
+						((Sinner) addForm.getEntity()).setCircleOfHell((CircleOfHell) addForm.getCircleChoosePanel().getEntry());
+						DBEntry ent = addForm.getEntity();
+						objectModel.loadSingleDBEntry(ent);
+						addForm.dispose();
+						tables.LoadObjectModel(objectModel);
+					}
+					
+				});
+				
+			}
+        	
+        });
+        
+        addSinButton = new sinGUIButton("    ADD SIN   ");
+        addSinButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SinAddForm addForm = new SinAddForm(objectModel, "ADD");
+				addForm.setEntity(new Sin());
+				addForm.getAddButton().addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO 
+						DBEntry ent = addForm.getEntity();
+						objectModel.loadSingleDBEntry(ent);
+						addForm.dispose();
+						tables.LoadObjectModel(objectModel);
+					}
+					
+				});
+				
+			}
+        	
+        });
+        
         deleteButton = new sinGUIButton(" DELETE ");
         deleteButton.addActionListener(new ActionListener() {
 			@Override
@@ -233,7 +360,11 @@ public class SinGUI extends JFrame{
         
     	buttonPanel.add(selectButton);
     	buttonPanel.add(deleteButton);
-    	buttonPanel.add(addButton);
+    	buttonPanel.add(addSinnerButton);
+    	buttonPanel.add(addSinButton);
+    	buttonPanel.add(addDemonButton);
+    	buttonPanel.add(addCircleButton);
+    	buttonPanel.add(addSinInstanceButton);
     	buttonPanel.add(saveButton);
     	buttonPanel.add(loadButton);
     	buttonPanel.add(exportButton);
@@ -267,7 +398,19 @@ public class SinGUI extends JFrame{
         sinInstancesButton.addActionListener(e -> tables.openSinInstanceTable());
         
         selectedButton = new sinGUIButton("selected");
-        selectedButton.addActionListener(e -> tables.openSelectedTable());
+        selectedButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					tables.openSelectedTable();
+				}catch(Exception ex) {
+					JOptionPane.showMessageDialog(tables, "Nothing was selected");
+				}
+				
+			}
+        	
+        });
         
         
         choosePanel.add(demonsButton);
