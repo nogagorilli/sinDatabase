@@ -1,6 +1,6 @@
 package SinDatabase;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.*;
 
@@ -26,7 +26,7 @@ public class SinInstance implements DBEntry{
 
 	
 	@Column(name = "date")
-	private Date date;
+	private Date date = new Date(0);
 	
 	public void setSin(Sin s) {
 		this.sin = s;
@@ -64,6 +64,8 @@ public class SinInstance implements DBEntry{
 		return new String[] {"ID", "SINNER", "SIN","DATE"};
 		
 	}
+	
+	
 	public String[] getTableRow() {
 		//return new String[] {Integer.toString(this.getId()),this.getSinner().getName()+" "+this.getSinner().getLastName(),this.getSin().getName(),this.getDate().toString()};
 		String[] ret = new String[] {"","","","",""};

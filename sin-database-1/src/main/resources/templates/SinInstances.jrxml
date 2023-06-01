@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.1.final using JasperReports Library version 6.20.1-7584acb244139816654f64e2fd57a00d3e31921e  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SinInstances" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8e15d519-eab3-497d-b483-a5c1caac3ee0">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SinInstancesXMLAdapter"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="xPath">
+		<![CDATA[/root/element]]>
+	</queryString>
+	<field name="date" class="java.sql.Date">
+		<property name="net.sf.jasperreports.xpath.field.expression" value="@date"/>
+		<fieldDescription><![CDATA[@date]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Integer">
+		<property name="net.sf.jasperreports.xpath.field.expression" value="@id"/>
+		<fieldDescription><![CDATA[@id]]></fieldDescription>
+	</field>
+	<field name="sin" class="java.lang.String">
+		<property name="net.sf.jasperreports.xpath.field.expression" value="@sin"/>
+		<fieldDescription><![CDATA[@sin]]></fieldDescription>
+	</field>
+	<field name="sinner" class="java.lang.String">
+		<property name="net.sf.jasperreports.xpath.field.expression" value="@sinner"/>
+		<fieldDescription><![CDATA[@sinner]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="91f5fe7f-a65f-46a3-81ae-30f2d82c45a2"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Instances of sin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="117" y="46" width="299" height="22" uuid="6931f6fc-c9e8-4cc3-9eec-607a123c87f7"/>
+				<text><![CDATA[commited by sinners]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="2c4ebb21-8745-45a1-a9ad-477acaac72cb"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="416" y="20" width="138" height="15" uuid="742076a3-ab11-41e9-aa05-32b2e12b41f4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="81d6031c-fc0b-4ae5-bd56-bb9c0b759c98"/>
+				</reportElement>
+				<text><![CDATA[date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="2" y="20" width="138" height="15" uuid="c7704b9a-8c54-4128-ac9e-2a117f6dc07f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1747a022-cbca-4e1b-a644-09508d219645"/>
+				</reportElement>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="140" y="20" width="138" height="15" uuid="51f4162e-dbd0-4eb5-a5d2-fab3bf74239e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2938a34-ba1c-4bcd-9469-76d3845f20f7"/>
+				</reportElement>
+				<text><![CDATA[sin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="278" y="20" width="138" height="15" uuid="9c889b52-3f06-447f-9ae5-1174a3cf6ca0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5410470b-bd3d-4809-8643-6a2071fcf5c7"/>
+				</reportElement>
+				<text><![CDATA[sinner]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="ffde0804-90e8-496b-86fb-ee363619f187"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="416" y="1" width="138" height="15" uuid="12212e7e-a500-4f73-ba56-3a665e26baa8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="81d6031c-fc0b-4ae5-bd56-bb9c0b759c98"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="2" y="1" width="138" height="15" uuid="abf155bd-4b17-4f4a-811e-b35b61b4e0ff">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1747a022-cbca-4e1b-a644-09508d219645"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="140" y="1" width="138" height="15" uuid="e0c96f83-91f9-4395-b76c-0a4b7d3586b0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2938a34-ba1c-4bcd-9469-76d3845f20f7"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{sin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="278" y="1" width="138" height="15" uuid="cbd61015-7769-44c5-baa0-dd9cf4078723">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5410470b-bd3d-4809-8643-6a2071fcf5c7"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{sinner}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="30093aa1-3dd7-4eea-9cc9-e183637af8f4"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="c9e9a989-76ae-4c92-a08c-dba3c3185f04"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="736cac2d-8f9a-48bb-b4e7-09302ce0e313"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="c49bc611-71b3-4860-8112-76288860b48d"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

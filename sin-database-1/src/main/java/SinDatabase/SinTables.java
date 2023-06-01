@@ -21,9 +21,26 @@ public class SinTables extends JLayeredPane{
 	private DefaultTableModel circleModel;
 	private DefaultTableModel sinInstanceModel;
 	private JScrollPane sinInstanceScroll;
+	private Class selectedClass = Object.class;
 	
+	public Class getSelectedClass() {
+		return selectedClass;
+	}
+
+	public void setSelectedClass(Class selectedClass) {
+		this.selectedClass = selectedClass;
+	}
+
 	private JScrollPane selectedScroll;
 	
+	public JScrollPane getSelectedScroll() {
+		return selectedScroll;
+	}
+
+	public void setSelectedScroll(JScrollPane selectedScroll) {
+		this.selectedScroll = selectedScroll;
+	}
+
 	SinTables(int x,int y,int width,int height){
 		super();
 		
@@ -133,6 +150,8 @@ public class SinTables extends JLayeredPane{
 		this.removeAll();
 		DefaultTableModel tableModel;
 		String[] columns;
+		this.setSelectedScroll(null);
+		this.setSelectedClass(Object.class);
 		
 		// Adding demons
 		columns = Demon.getTableColumns();

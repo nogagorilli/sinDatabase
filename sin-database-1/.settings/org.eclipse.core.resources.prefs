@@ -1,6 +1,11 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/resources/templates/CirclesOfHell.jrxml=UTF-8
+encoding//src/main/resources/templates/Demons.jrxml=UTF-8
+encoding//src/main/resources/templates/SinInstances.jrxml=UTF-8
+encoding//src/main/resources/templates/Sinners.jrxml=UTF-8
+encoding//src/main/resources/templates/Sins.jrxml=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8

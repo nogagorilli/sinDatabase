@@ -19,12 +19,14 @@ public class SinInstanceAddForm extends AddForm{
 			this.sinnerChoosePanel.getAttrValueButton().setText("undefined");
 		}
 		this.sinnerChoosePanel.setEntry(entity.getSinner());
+		
 		try {
 			this.sinChoosePanel.getAttrValueButton().setText(entity.getSin().getShortDescription());
 		}catch(Exception ex) {
 			this.sinChoosePanel.getAttrValueButton().setText("undefined");
 		}
 		this.sinChoosePanel.setEntry(entity.getSin());
+		
 		this.datePanel.getAttrValueField().setText(entity.getDate().toString());
 		revalidate();
 	}

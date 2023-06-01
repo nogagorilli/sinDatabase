@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.persistence.Persistence;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -76,60 +78,60 @@ public class SinObjectModel {
 	
 	
 	static JScrollPane createSelectedScroll(ArrayList list) {
-		JTable table;
-		DefaultTableModel tableModel;
+		JTable selectedTable;
+		DefaultTableModel selectedModel;
 		if(list.size() !=0) {
 			if(list.get(0).getClass() == Sinner.class) {
-				String[] columns = new String[] {"ID", "NAME", "LASTNAME","DATE OF DEATH","CIRCLE OF HELL"};
-				tableModel = new DefaultTableModel(columns, 0);
+				String[] columns = Sinner.getTableColumns();
+				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					Sinner temp= (Sinner)t;
-					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),temp.getDateOfDeath().toString(),temp.getCircleOfHell().getName()});
+					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),temp.getDateOfDeath().toString(),temp.getCircleOfHell().getName()});
 				}
 			}else if(list.get(0).getClass() == Demon.class) {
-				String[] columns = new String[] {"ID", "NAME", "LASTNAME","EXPERIENCE","SALARY","CIRCLE OF HELL"};
-				tableModel = new DefaultTableModel(columns, 0);
+				String[] columns = Demon.getTableColumns();
+				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					Demon temp = (Demon) t;
-					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),Integer.toString(temp.getExperience()),Integer.toString(temp.getSalary()),temp.getCircleOfHell().getName()});
+					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),Integer.toString(temp.getExperience()),Integer.toString(temp.getSalary()),temp.getCircleOfHell().getName()});
 				}
 			}else if(list.get(0).getClass() == Sin.class) {
-				String[] columns = new String[] {"ID", "NAME", "HEAVINESS"};
-				tableModel = new DefaultTableModel(columns, 0);
+				String[] columns = Sin.getTableColumns();
+				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					Sin temp = (Sin) t;
-					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),Float.toString(temp.getHeaviness())});
+					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),Float.toString(temp.getHeaviness())});
 				}
 				
 			}else if(list.get(0).getClass() == SinInstance.class) {
-				String[] columns = new String[] {"ID", "SINNER", "SIN","DATE"};
-				tableModel = new DefaultTableModel(columns, 0);
+				String[] columns = SinInstance.getTableColumns();
+				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					SinInstance temp = (SinInstance) t;
-					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getSinner().getName()+" "+temp.getSinner().getLastName(),temp.getSin().getName(),temp.getDate().toString()});
+					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getSinner().getName()+" "+temp.getSinner().getLastName(),temp.getSin().getName(),temp.getDate().toString()});
 				}
 			}else if(list.get(0).getClass() == CircleOfHell.class) {
-				String[] columns = new String[] {"ID", "NAME", "DESCRIPTION"};
-				tableModel = new DefaultTableModel(columns, 0);
+				String[] columns = CircleOfHell.getTableColumns();
+				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					CircleOfHell temp = (CircleOfHell) t;
-					tableModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getDescription()});
+					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getDescription()});
 				}
 			}else {
-				String[] columns = new String[] {"ID", "SINNER", "SIN","DATE"};
-				tableModel = new DefaultTableModel(columns, 0);
+				String[] columns = Sin.getTableColumns();
+				selectedModel = new DefaultTableModel(columns, 0);
 			}
 	        
 	        
 		}else {
 			String[] columns = new String[] {"ID", "SINNER", "SIN","DATE"};
-			tableModel = new DefaultTableModel(columns, 0);
+			selectedModel = new DefaultTableModel(columns, 0);
 		}
 		
-        table = new JTable(tableModel);
+        selectedTable = new JTable(selectedModel);
 		
 		
-		return new JScrollPane(table);
+		return new JScrollPane(selectedTable);
 	}
 	
 	
@@ -391,11 +393,8 @@ public class SinObjectModel {
 		}
 		
 		try {
-			
 			Transformer trans = TransformerFactory.newInstance().newTransformer();
-			
 			java.io.FileWriter fw = new FileWriter(docName);
-			
 			trans.transform(new DOMSource(doc), new StreamResult(fw));
 			}
 		catch (TransformerConfigurationException e) { e.printStackTrace(); }
@@ -403,18 +402,62 @@ public class SinObjectModel {
 		catch (IOException e) { e.printStackTrace(); }
 		
 	}
-	public void ExportPDF(String exportFileName,String xmlFileName) throws UnableToExportPDFException {
+	
+	
+	public void ExportPDF(String exportFileName, SinTables tables) throws UnableToExportPDFException {
+		HashMap<Class,String> classMap = new HashMap<Class,String>();
+		classMap.put(Sinner.class, "Sinners.jrxml");
+		classMap.put(Sin.class, "Sins.jrxml");
+		classMap.put(Demon.class, "Demons.jrxml");
+		classMap.put(SinInstance.class, "SinInstances.jrxml");
+		classMap.put(CircleOfHell.class, "CirclesOfHell.jrxml");
+		String prefix = "src/main/resources/templates/";
+		Document doc;
+		try {
+			doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		} catch(ParserConfigurationException e) { e.printStackTrace(); return;}
+		Node root = doc.createElement("root");
+		doc.appendChild(root);
+		JTable table = (JTable) tables.getSelectedScroll().getViewport().getView();
+		for(int row =0;row< table.getRowCount();row++) {
+			Element element = doc.createElement("element");
+			Enumeration<TableColumn> attrs = table.getColumnModel().getColumns();
+			for(int column = 0;attrs.hasMoreElements();column++) {
+				try {
+					TableColumn attr = attrs.nextElement();
+					String attrName = (String) attr.getHeaderValue();
+					System.out.println(attrName+" "+ (String) table.getValueAt(row, column));
+					element.setAttribute(attrName.replaceAll(" ", "").toLowerCase(), (String) table.getValueAt(row, column));
+
+				}catch(Exception ex) {ex.printStackTrace();};
+			}
+			
+			root.appendChild(element);
+		}
+		try {
+			Transformer trans = TransformerFactory.newInstance().newTransformer();
+			java.io.FileWriter fw = new FileWriter("temp.xml");
+			trans.transform(new DOMSource(doc), new StreamResult(fw));
+			}
+		catch (TransformerConfigurationException e) { e.printStackTrace(); }
+		catch (TransformerException e) { e.printStackTrace(); }
+		catch (IOException e) { e.printStackTrace(); }
+		
+		
+		
+		
 		try {
 			// Указание источника XML-данных
-			JRDataSource ds = new JRXmlDataSource(xmlFileName,"/SinDatabase/Sins/Sin");
+			JRDataSource ds = new JRXmlDataSource("temp.xml","/root/element");
 			// Создание отчета на базе шаблона
-			JasperReport jasperReport = JasperCompileManager.compileReport("src/main/resources/sampleXML/Coffee.jrxml");
+			JasperReport jasperReport = JasperCompileManager.compileReport(prefix+classMap.get(tables.getSelectedClass()));
 			// Заполнение отчета данными
 			JasperPrint print = JasperFillManager.fillReport(jasperReport, new HashMap(), ds);
 			JRExporter exporter = null;
 			exporter = new JRPdfExporter(); // Генерация отчета в формате PDF
 			// Задание имени файла для выгрузки отчета
 			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, exportFileName);
+			System.out.println(exportFileName);
 			// Подключение данных к отчету
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
 			// Выгрузка отчета в заданном формате

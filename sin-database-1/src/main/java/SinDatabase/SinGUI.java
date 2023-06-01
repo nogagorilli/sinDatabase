@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.border.Border;
 
 public class SinGUI extends JFrame{
@@ -148,6 +149,7 @@ public class SinGUI extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO 
+						System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbb");
 						((SinInstance) addForm.getEntity()).setSinner((Sinner) addForm.getSinnerChoosePanel().getEntry());
 						((SinInstance) addForm.getEntity()).setSin((Sin) addForm.getSinChoosePanel().getEntry());
 						DBEntry ent = addForm.getEntity();
@@ -275,6 +277,7 @@ public class SinGUI extends JFrame{
 				sinSelectForm.getQueryButton().addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						sinSelectForm.dispose();
 						String query = sinSelectForm.getQueryPanel().createHQLQuery();
 						//SinObjectModel.getEntityManager().getTransaction().begin();
 						try {
@@ -286,6 +289,7 @@ public class SinGUI extends JFrame{
 								objectModel.getEntityManager().getTransaction().commit();
 							}
 							tables.LoadObjectModel(objectModel);
+							
 							
 						}catch(Exception ex) {
 							ex.printStackTrace();
@@ -302,14 +306,19 @@ public class SinGUI extends JFrame{
 				sinSelectForm = new SinSelectForm();
 				sinSelectForm.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				sinSelectForm.getQueryButton().addActionListener(new ActionListener() {
+					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						sinSelectForm.dispose();
 						String query = sinSelectForm.getQueryPanel().createHQLQuery();
 						//SinObjectModel.getEntityManager().getTransaction().begin();
 						try {
 							ArrayList<Object> list= (ArrayList<Object>) SinObjectModel.getEntityManager().createQuery(query).getResultList();
 //							List<Sinner> sinnerList= SinObjectModel.getEntityManager().createQuery("SELECT obj from Sinner obj WHERE  obj.name = 'Alek'").getResultList();
 							tables.setSelected(SinObjectModel.createSelectedScroll(list));
+							try {
+								tables.setSelectedClass(list.get(0).getClass());
+							}catch(Exception ex){}
 						}catch(Exception ex) {
 							ex.printStackTrace();
 						}
@@ -347,11 +356,10 @@ public class SinGUI extends JFrame{
         exportButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		try {
-	                JFileChooser fileopen = new JFileChooser("src/main/resources/databases");             
+	                JFileChooser fileopen = new JFileChooser("src/main/resources/templates");             
 	                int ret = fileopen.showDialog(null, "Export PDF");                
 	                if (ret == JFileChooser.APPROVE_OPTION) {
-	                	objectModel.saveXML("report export.xml");
-	                	objectModel.ExportPDF(fileopen.getSelectedFile().getAbsolutePath(), "report export.xml");
+	                	objectModel.ExportPDF(fileopen.getSelectedFile().getAbsolutePath(), tables);
 	                }
             	}catch(UnableToExportPDFException ex) {
         			JOptionPane.showMessageDialog(tables, "Can't export PDF");
