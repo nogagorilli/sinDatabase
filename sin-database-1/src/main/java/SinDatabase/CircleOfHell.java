@@ -84,7 +84,7 @@ public class CircleOfHell implements DBEntry{
 	@Override
 	public String getShortDescription() {
 		String ret = "";
-		ret = Integer.toString(this.getId())+this.getName();
+		ret = Integer.toString(this.getId())+" "+this.getName();
 		return ret;
 	}
 	@Override

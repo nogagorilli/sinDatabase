@@ -283,16 +283,19 @@ public class SinGUI extends JFrame{
 						try {
 							ArrayList<Object> list= (ArrayList<Object>) SinObjectModel.getEntityManager().createQuery(query).getResultList();
 //							List<Sinner> sinnerList= SinObjectModel.getEntityManager().createQuery("SELECT obj from Sinner obj WHERE  obj.name = 'Alek'").getResultList();
-							for(Object i:list) {
-								objectModel.getEntityManager().getTransaction().begin();
-								objectModel.getEntityManager().remove(i);
-								objectModel.getEntityManager().getTransaction().commit();
+							int decision = JOptionPane.showConfirmDialog(tables, String.format("are you sure you want to delete %d entities",list.size()));
+							if(decision == JOptionPane.YES_OPTION) {
+								for(Object i:list) {
+									objectModel.getEntityManager().getTransaction().begin();
+									objectModel.getEntityManager().remove(i);
+									objectModel.getEntityManager().getTransaction().commit();
+								}
+								tables.LoadObjectModel(objectModel);
 							}
-							tables.LoadObjectModel(objectModel);
-							
 							
 						}catch(Exception ex) {
 							ex.printStackTrace();
+							JOptionPane.showMessageDialog(tables, "Can't create deletion query");
 						}
 					}
 				});
@@ -321,6 +324,7 @@ public class SinGUI extends JFrame{
 							}catch(Exception ex){}
 						}catch(Exception ex) {
 							ex.printStackTrace();
+							JOptionPane.showMessageDialog(tables, "Failed to create a query");
 						}
 					}
 				});

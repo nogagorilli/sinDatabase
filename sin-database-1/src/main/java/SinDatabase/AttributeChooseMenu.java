@@ -214,12 +214,14 @@ abstract public class AttributeChooseMenu extends JMenu{
 		private JMenuItem sinnerLastNameItem;
 		private JMenuItem sinNameItem;
 		private JMenuItem idItem;
+		private JMenuItem dateItem;
 		
 		SinInstancesMenu (String s) {
 			super(s);
 			sinnerNameItem = new JMenuItem("SINNER.NAME");
 			sinnerLastNameItem = new JMenuItem("SINNER.LASTNAME");
 			sinNameItem = new JMenuItem("SIN.NAME");
+			dateItem = new JMenuItem("DATE");
 			idItem = new JMenuItem("ID");
 			
 			sinnerNameItem.addActionListener(new ActionListener() {
@@ -250,10 +252,18 @@ abstract public class AttributeChooseMenu extends JMenu{
 				}
 			});	
 			
+			dateItem.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					sinInstancesMenu.setText("DATE");
+				}
+			});	
+			
 			this.add(sinnerNameItem);
 			this.add(sinnerLastNameItem);
 			this.add(sinNameItem);
 			this.add(idItem);
+			this.add(dateItem);
 		}
 	}
 	

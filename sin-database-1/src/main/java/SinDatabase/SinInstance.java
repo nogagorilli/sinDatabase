@@ -95,7 +95,7 @@ public class SinInstance implements DBEntry{
 	@Override
 	public String getShortDescription() {
 		String ret = "";
-		ret = Integer.toString(this.getId())+this.getSinner().getName() +" " +this.getSinner().getLastName() 
+		ret = Integer.toString(this.getId())+" "+this.getSinner().getName() +" " +this.getSinner().getLastName() 
 				+" commited " + this.getSin().getName() + " at " + this.getDate().toString();
 		return ret;
 	}

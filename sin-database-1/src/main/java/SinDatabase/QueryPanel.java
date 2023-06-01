@@ -154,7 +154,7 @@ abstract class QueryPanel extends JPanel implements DBOperator {
 			put("ID", "obj.id");
 		    put("NAME", "obj.name");
 		    put("LASTNAME", "obj.lastName");
-		    put("EXPERIENCE", "obj.experience");
+		    put("EXPERIENCE", "obj.experienceInDays");
 		    put("SALARY", "obj.salary");
 		    put("CIRCLE OF HELL.NAME", "obj.circle.name");
 		    put("DATE OF DEATH", "obj.dateOfDeath");
@@ -162,6 +162,21 @@ abstract class QueryPanel extends JPanel implements DBOperator {
 		    put("SINNER.NAME", "obj.sinner.name");
 		    put("SINNER.LASTNAME", "obj.sinner.lastName");
 		    put("SIN.NAME", "obj.sin.name");
+		    put("DATE", "obj.date");
+		}};
+		HashMap<String,String> wrapperMap = new HashMap<String, String>() {{
+			put("ID", "int");
+		    put("NAME", "str");
+		    put("LASTNAME", "str");
+		    put("EXPERIENCE", "int");
+		    put("SALARY", "int");
+		    put("CIRCLE OF HELL.NAME", "str");
+		    put("DATE OF DEATH", "int");
+		    put("HEAVINESS", "int");
+		    put("SINNER.NAME", "str");
+		    put("SINNER.LASTNAME", "str");
+		    put("SIN.NAME", "str");
+		    put("DATE", "int");
 		}};
 		
 		HashMap<String,String> relationMap = new HashMap<String, String>() {{
@@ -184,11 +199,22 @@ abstract class QueryPanel extends JPanel implements DBOperator {
 				WherePanel panel = wherePanels.get(i);
 				query+= attributeMap.get(panel.getAttribute());
 				query+= relationMap.get(panel.getRelation());
-				query+= panel.getAttributeValue().replaceAll("\"", "'");
-				
+				String attr = panel.getAttributeValue().replaceAll("\"", "").replaceAll("'", "");
+				if (wrapperMap.get(panel.getAttribute()) == "str") {
+					attr = "'" + attr+ "'";
+				}
+				query+=attr;
 			}
 			query+=" ) ";
 		}
 		return query;
+	}
+	private Boolean isAlikeNumber(String s) {
+		if(s.length() == 0) return false;
+		char c =s.charAt(0);
+		if(Character.isDigit(c)||c == '-') {
+			return true;
+		}
+		return false;
 	}
 }

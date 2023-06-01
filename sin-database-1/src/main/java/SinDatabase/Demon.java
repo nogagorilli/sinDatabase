@@ -99,7 +99,7 @@ public class Demon extends Being implements DBEntry{
 	@Override
 	public String getShortDescription() {
 		String ret = "";
-		ret = Integer.toString(this.getId())+this.getName() + this.getLastName();
+		ret = Integer.toString(this.getId())+" "+this.getName()+" " + this.getLastName();
 		return ret;
 	}
 	

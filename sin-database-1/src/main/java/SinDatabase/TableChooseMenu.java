@@ -72,7 +72,7 @@ public class TableChooseMenu extends JMenu {
 		this.add(sinsItem);
 		this.add(circlesOfHellItem);
 		this.add(sinInstancesItem);
-		this.add(selectedItem);		
+//		this.add(selectedItem);		
 	}
 	@Override
 	public void setText(String s) {
