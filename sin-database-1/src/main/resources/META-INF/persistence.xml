@@ -5,14 +5,14 @@
 	version="2.0">
 	<persistence-unit name="SinPersistence">
 		
-		<class>SinDatabase.SinInstance</class>
+		<!--<class>SinDatabase.SinInstance</class>
 		<class>SinDatabase.Sin</class>
 		<class>SinDatabase.CircleOfHell</class>
 		<class>SinDatabase.Demon</class>
 		<class>SinDatabase.Sinner</class>
 		<class>SinDatabase.SinObjectModel</class>
 		<class>SinDatabase.SinGUI</class>
-		<class>SinDatabase.Main</class>
+		<class>SinDatabase.Main</class>-->
 		
         <!--<exclude-unlisted-classes />-->
 		

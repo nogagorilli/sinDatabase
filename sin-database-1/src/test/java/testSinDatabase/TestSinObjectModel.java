@@ -1,9 +1,10 @@
 package testSinDatabase;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import SinDatabase.SinObjectModel;
-import SinDatabase.UnableToExportPDFException;
-import SinDatabase.WrongXMLException;
+
+import exceptions.UnableToExportPDFException;
+import exceptions.WrongXMLException;
+import sinDatabase.SinObjectModel;
 public class TestSinObjectModel {
 //	@Test
 //	void testWrongFileExtension(){
