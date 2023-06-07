@@ -298,7 +298,7 @@ public class SinGUI extends JFrame{
 						String query = sinSelectForm.getQueryPanel().createHQLQuery();
 						//SinObjectModel.getEntityManager().getTransaction().begin();
 						try {
-							ArrayList<Object> list= (ArrayList<Object>) SinObjectModel.getEntityManager().createQuery(query).getResultList();
+							ArrayList<DBEntry> list= (ArrayList<DBEntry>)sinSelectForm.getResultingList().stream().collect(Collectors.toList());;
 //							List<Sinner> sinnerList= SinObjectModel.getEntityManager().createQuery("SELECT obj from Sinner obj WHERE  obj.name = 'Alek'").getResultList();
 							int decision = JOptionPane.showConfirmDialog(tables, String.format("are you sure you want to delete %d entities",list.size()));
 							if(decision == JOptionPane.YES_OPTION) {
@@ -475,6 +475,13 @@ public class SinGUI extends JFrame{
         this.add(buttonPanel);
         this.add(tables);
         setVisible(true);
+        try {
+			objectModel.loadXML("src/main/resources/databases/1.xml");
+			tables.LoadObjectModel(objectModel);
+		} catch (WrongXMLException e1) {
+			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(tables, "Could not load XML");
+		}
     }
     
     

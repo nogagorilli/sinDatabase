@@ -266,6 +266,14 @@ abstract public class AttributeChooseMenu extends JMenu{
 	}
 	
 	static class CirclesMenu  extends AttributeChooseMenu{
+		public JMenuItem getNameItem() {
+			return nameItem;
+		}
+
+		public JMenuItem getIdItem() {
+			return idItem;
+		}
+
 		final private CirclesMenu circlesMenu = this;
 		private JMenuItem nameItem;
 		private JMenuItem idItem;
@@ -296,35 +304,28 @@ abstract public class AttributeChooseMenu extends JMenu{
 	
 	static class SinInstancesMenu  extends AttributeChooseMenu{
 		final private SinInstancesMenu  sinInstancesMenu = this;
-		private JMenuItem sinnerNameItem;
-		private JMenuItem sinnerLastNameItem;
-		private JMenuItem sinNameItem;
+		private JMenuItem sinnerItem;
+		private JMenuItem sinItem;
 		private JMenuItem idItem;
 		private JMenuItem dateItem;
 		
 		SinInstancesMenu (String s) {
 			super(s);
-			sinnerNameItem = new JMenuItem("SINNER.NAME");
-			sinnerLastNameItem = new JMenuItem("SINNER.LASTNAME");
-			sinNameItem = new JMenuItem("SIN.NAME");
+			sinnerItem = new JMenuItem("SINNER");
+			sinItem = new JMenuItem("SIN");
 			dateItem = new JMenuItem("DATE");
 			idItem = new JMenuItem("ID");
 			
-			sinnerNameItem.addActionListener(new ActionListener() {
+			sinnerItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					sinInstancesMenu.setText("SINNER.NAME");
 				}
 			});	
 			
-			sinnerLastNameItem.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					sinInstancesMenu.setText("SINNER.LASTNAME");
-				}
-			});		
 			
-			sinNameItem.addActionListener(new ActionListener() {
+			
+			sinItem.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					sinInstancesMenu.setText("SIN.NAME");
@@ -345,35 +346,28 @@ abstract public class AttributeChooseMenu extends JMenu{
 				}
 			});	
 			
-			this.add(sinnerNameItem);
-			this.add(sinnerLastNameItem);
-			this.add(sinNameItem);
+			this.add(sinnerItem);
+			this.add(sinItem);
 			this.add(idItem);
 			this.add(dateItem);
 		}
 
-		public JMenuItem getSinnerNameItem() {
-			return sinnerNameItem;
+		public JMenuItem getSinnerItem() {
+			return sinnerItem;
 		}
 
-		public void setSinnerNameItem(JMenuItem sinnerNameItem) {
-			this.sinnerNameItem = sinnerNameItem;
+		public void setSinnerItem(JMenuItem sinnerNameItem) {
+			this.sinnerItem = sinnerNameItem;
 		}
 
-		public JMenuItem getSinnerLastNameItem() {
-			return sinnerLastNameItem;
+
+
+		public JMenuItem getSinItem() {
+			return sinItem;
 		}
 
-		public void setSinnerLastNameItem(JMenuItem sinnerLastNameItem) {
-			this.sinnerLastNameItem = sinnerLastNameItem;
-		}
-
-		public JMenuItem getSinNameItem() {
-			return sinNameItem;
-		}
-
-		public void setSinNameItem(JMenuItem sinNameItem) {
-			this.sinNameItem = sinNameItem;
+		public void setSinItem(JMenuItem sinNameItem) {
+			this.sinItem = sinNameItem;
 		}
 
 		public JMenuItem getIdItem() {
