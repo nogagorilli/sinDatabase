@@ -30,6 +30,7 @@ import sinDatabase.SinObjectModel;
 public abstract class AddForm  extends JFrame{
 	protected JPanel mainPanel;
 	private JPanel topPanel;
+	private JPanel bottomPanel;
 	private DBEntry entity;
 	private SinObjectModel objectModel;
 	
@@ -52,11 +53,11 @@ public abstract class AddForm  extends JFrame{
 		this.setLocation(500, 400);
 		mainPanel = new JPanel();
 		mainPanel.setPreferredSize(new Dimension(400,400));
-		mainPanel.setBackground(Color.GREEN);
+		mainPanel.setBackground(new Color(0xcc7722));
 		
 		topPanel = new JPanel();
 		topPanel.setPreferredSize(new Dimension(400,50));
-		topPanel.setBackground(Color.black);
+		topPanel.setBackground(new Color(0x494d4e));
 		
 		this.setLayout(new BorderLayout());
 		this.add(topPanel,BorderLayout.PAGE_START);
@@ -75,8 +76,12 @@ public abstract class AddForm  extends JFrame{
 			}
 			
 		});
-		this.add(cancelButton,BorderLayout.WEST);
-		this.add(addButton,BorderLayout.EAST);
+		bottomPanel = new JPanel();
+		bottomPanel.setLayout(new BorderLayout());
+		bottomPanel.add(cancelButton,BorderLayout.WEST);
+		bottomPanel.add(addButton,BorderLayout.EAST);
+		bottomPanel.setBackground(new Color(0x494d4e));
+		this.add(bottomPanel,BorderLayout.SOUTH);
 		this.setVisible(true);
 	}
 	

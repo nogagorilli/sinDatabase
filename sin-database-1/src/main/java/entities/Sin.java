@@ -39,13 +39,7 @@ public class Sin implements DBEntry{
 	}
 	
 	
-	public void appendSinList(Sin s) {
-		
-	}
 	
-	public void removeFromSinList(Sin s) {
-		
-	}
 	
 	
 	

@@ -39,6 +39,7 @@ abstract class QueryForm extends JFrame {
 		super(s);
 		this.objectModel = objectModel;
 		this.setSize(600,300);
+		this.setLocation(500, 400);
 		this.setAlwaysOnTop(true);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		

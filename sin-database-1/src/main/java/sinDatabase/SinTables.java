@@ -152,6 +152,7 @@ public class SinTables extends JLayeredPane{
 	}
 	
 	public void LoadObjectModel(SinObjectModel objectModel) {
+		JTable a;
 		objectModel.update();
 		this.removeAll();
 		DefaultTableModel tableModel;
@@ -165,7 +166,10 @@ public class SinTables extends JLayeredPane{
 		for(Demon temp:objectModel.getDemons()) {
 			tableModel.addRow(temp.getTableRow());
 		}
-		this.demonScroll = new JScrollPane(new JTable(tableModel));
+		a = new JTable(tableModel);
+		a.setFocusable(false);
+		a.setEnabled(false);
+		this.demonScroll = new JScrollPane(a);
 		this.demonScroll.setBounds(0,0,this.getWidth(),this.getHeight());
 		this.add(this.demonScroll,JLayeredPane.DEFAULT_LAYER);
 		
@@ -175,7 +179,10 @@ public class SinTables extends JLayeredPane{
 		for(Sinner temp:objectModel.getSinners()) {
 			tableModel.addRow(temp.getTableRow());
 		}
-		this.sinnerScroll = new JScrollPane(new JTable(tableModel));
+		a = new JTable(tableModel);
+		a.setFocusable(false);
+		a.setEnabled(false);
+		this.sinnerScroll = new JScrollPane(a);
 		this.sinnerScroll.setBounds(0,0,this.getWidth(),this.getHeight());
 		this.add(this.sinnerScroll,JLayeredPane.DEFAULT_LAYER);
 		
@@ -185,7 +192,10 @@ public class SinTables extends JLayeredPane{
 		for(Sin temp:objectModel.getSins()) {
 			tableModel.addRow(temp.getTableRow());
 		}
-		this.sinScroll = new JScrollPane(new JTable(tableModel));
+		a = new JTable(tableModel);
+		a.setFocusable(false);
+		a.setEnabled(false);
+		this.sinScroll = new JScrollPane(a);
 		this.sinScroll.setBounds(0,0,this.getWidth(),this.getHeight());
 		this.add(this.sinScroll,JLayeredPane.DEFAULT_LAYER);
 		
@@ -195,7 +205,10 @@ public class SinTables extends JLayeredPane{
 		for(CircleOfHell temp:objectModel.getCirclesOfHell()) {
 			tableModel.addRow(temp.getTableRow());
 		}
-		this.circleScroll = new JScrollPane(new JTable(tableModel));
+		a = new JTable(tableModel);
+		a.setFocusable(false);
+		a.setEnabled(false);
+		this.circleScroll = new JScrollPane(a);
 		this.circleScroll.setBounds(0,0,this.getWidth(),this.getHeight());
 		this.add(this.circleScroll,JLayeredPane.DEFAULT_LAYER);
 		
@@ -206,11 +219,18 @@ public class SinTables extends JLayeredPane{
 			System.out.println("aaaaa");
 			tableModel.addRow(temp.getTableRow());
 		}
-		this.sinInstanceScroll = new JScrollPane(new JTable(tableModel));
+		a = new JTable(tableModel);
+		a.setFocusable(false);
+		a.setEnabled(false);
+		this.sinInstanceScroll = new JScrollPane(a);
 		this.sinInstanceScroll.setBounds(0,0,this.getWidth(),this.getHeight());
 		this.add(this.sinInstanceScroll,JLayeredPane.DEFAULT_LAYER);
 		
-				
+		sinScroll.setFocusable(false);
+        demonScroll.setFocusable(false);
+        sinnerScroll.setFocusable(false);
+        sinInstanceScroll.setFocusable(false);
+        circleScroll.setFocusable(false);	
 	}
 	
 	

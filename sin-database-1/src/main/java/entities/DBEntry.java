@@ -8,5 +8,5 @@ public interface DBEntry extends Cloneable{
 	
 	public abstract String[] getTableRow();
 	
-	abstract String getShortDescription();
+	public abstract String getShortDescription();
 }

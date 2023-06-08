@@ -52,9 +52,7 @@ public class Sinner extends Being implements DBEntry{
 	}
 	
 
-	public int calculateCircleOfHell() {
-		return 0;
-	}
+
 	
 	
 	
