@@ -72,22 +72,22 @@ public class SinInstance implements DBEntry{
 		try {
 			ret[0] = Integer.toString(this.getId());
 		}catch(Exception ex) {
-			ret[0] = "undefined";
+			ret[0] = "UNDEFINED";
 		}
 		try {
 			ret[1] = this.getSinner().getName()+" "+this.getSinner().getLastName();
 		}catch(Exception ex) {
-			ret[1] = "undefined";
+			ret[1] = "UNDEFINED";
 		}
 		try {
 			ret[2] = this.getSin().getName();
 		}catch(Exception ex) {
-			ret[2] = "undefined";
+			ret[2] = "UNDEFINED";
 		}
 		try {
 			ret[3] = this.getDate().toString();
 		}catch(Exception ex) {
-			ret[3] = "undefined";
+			ret[3] = "UNDEFINED";
 		}
 		return ret;
 		
@@ -95,7 +95,7 @@ public class SinInstance implements DBEntry{
 	@Override
 	public String getShortDescription() {
 		String ret = "";
-		ret = Integer.toString(this.getId())+" "+this.getSinner().getName() +" " +this.getSinner().getLastName() 
+		ret = "(ID "+Integer.toString(this.getId())+") "+this.getSinner().getName() +" " +this.getSinner().getLastName() 
 				+" commited " + this.getSin().getName() + " at " + this.getDate().toString();
 		return ret;
 	}

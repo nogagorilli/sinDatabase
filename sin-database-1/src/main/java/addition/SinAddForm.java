@@ -1,5 +1,8 @@
 package addition;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.persistence.EntityManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -25,7 +28,24 @@ public class SinAddForm extends AddForm{
 			}
 			
 		});
-		
+		namePanel.getAttrValueField().addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(namePanel.getAttrValueField().getText().trim().length() == 0) {
+					namePanel.getAttrValueField().setText("UNDEFINED");
+					entity.setName(namePanel.getAttrValueField().getText());
+				}
+				
+			}
+			
+		});
 		
 		
 		
@@ -39,6 +59,32 @@ public class SinAddForm extends AddForm{
 				}catch(Exception ex) {
 					entity.setHeaviness(0);
 				}
+			}
+			
+		});
+		
+		heavinessPanel.getAttrValueField().addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				try {
+					if(Float.parseFloat(heavinessPanel.getAttrValueField().getText()) <0) {
+						heavinessPanel.getAttrValueField().setText(String.valueOf( -Float.parseFloat(heavinessPanel.getAttrValueField().getText())));
+					}
+					entity.setHeaviness(Float.parseFloat(heavinessPanel.getAttrValueField().getText()));
+					System.out.println("an int");
+				}catch(Exception ex) {
+					System.out.println("not an int");
+					heavinessPanel.getAttrValueField().setText("0");
+					entity.setHeaviness(0);
+				}
+				
 			}
 			
 		});

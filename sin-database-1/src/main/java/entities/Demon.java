@@ -65,32 +65,32 @@ public class Demon extends Being implements DBEntry{
 		try {
 			ret[0] = Integer.toString(this.getId());
 		}catch(Exception ex) {
-			ret[0] = "undefined";
+			ret[0] = "UNDEFINED";
 		}
 		try {
 			ret[1] = this.getName();
 		}catch(Exception ex) {
-			ret[1] = "undefined";
+			ret[1] = "UNDEFINED";
 		}
 		try {
 			ret[2] = this.getLastName();
 		}catch(Exception ex) {
-			ret[2] = "undefined";
+			ret[2] = "UNDEFINED";
 		}
 		try {
 			ret[3] = Integer.toString(this.getExperience());
 		}catch(Exception ex) {
-			ret[3] = "undefined";
+			ret[3] = "UNDEFINED";
 		}
 		try {
 			ret[4] = Integer.toString(this.getSalary());
 		}catch(Exception ex) {
-			ret[4] = "undefined";
+			ret[4] = "UNDEFINED";
 		}
 		try {
 			ret[5] = this.getCircleOfHell().getName();
 		}catch(Exception ex) {
-			ret[5] = "undefined";
+			ret[5] = "UNDEFINED";
 		}
 		return ret;
 		
@@ -99,7 +99,7 @@ public class Demon extends Being implements DBEntry{
 	@Override
 	public String getShortDescription() {
 		String ret = "";
-		ret = Integer.toString(this.getId())+" "+this.getName()+" " + this.getLastName();
+		ret = "(ID "+Integer.toString(this.getId())+") "+this.getName()+" " + this.getLastName();
 		return ret;
 	}
 	

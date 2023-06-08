@@ -94,21 +94,21 @@ public class SinObjectModel {
 				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					Sinner temp= (Sinner)t;
-					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),temp.getDateOfDeath().toString(),temp.getCircleOfHell().getName()});
+					selectedModel.addRow(temp.getTableRow());
 				}
 			}else if(list.get(0).getClass() == Demon.class) {
 				String[] columns = Demon.getTableColumns();
 				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					Demon temp = (Demon) t;
-					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getLastName(),Integer.toString(temp.getExperience()),Integer.toString(temp.getSalary()),temp.getCircleOfHell().getName()});
+					selectedModel.addRow(temp.getTableRow());
 				}
 			}else if(list.get(0).getClass() == Sin.class) {
 				String[] columns = Sin.getTableColumns();
 				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					Sin temp = (Sin) t;
-					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),Float.toString(temp.getHeaviness())});
+					selectedModel.addRow(temp.getTableRow());
 				}
 				
 			}else if(list.get(0).getClass() == SinInstance.class) {
@@ -116,14 +116,15 @@ public class SinObjectModel {
 				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					SinInstance temp = (SinInstance) t;
-					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getSinner().getName()+" "+temp.getSinner().getLastName(),temp.getSin().getName(),temp.getDate().toString()});
+					
+					selectedModel.addRow(temp.getTableRow());
 				}
 			}else if(list.get(0).getClass() == CircleOfHell.class) {
 				String[] columns = CircleOfHell.getTableColumns();
 				selectedModel = new DefaultTableModel(columns, 0);
 				for(Object t:list) {
 					CircleOfHell temp = (CircleOfHell) t;
-					selectedModel.addRow(new String[] {Integer.toString(temp.getId()),temp.getName(),temp.getDescription()});
+					selectedModel.addRow(temp.getTableRow());
 				}
 			}else {
 				String[] columns = Sin.getTableColumns();

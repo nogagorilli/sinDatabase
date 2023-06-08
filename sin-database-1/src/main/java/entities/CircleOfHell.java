@@ -65,17 +65,17 @@ public class CircleOfHell implements DBEntry{
 		try {
 			ret[0] = Integer.toString(this.getId());
 		}catch(Exception ex) {
-			ret[0] = "undefined";
+			ret[0] = "UNDEFINED";
 		}
 		try {
 			ret[1] = this.getName();
 		}catch(Exception ex) {
-			ret[1] = "undefined";
+			ret[1] = "UNDEFINED";
 		}
 		try {
 			ret[2] = this.getDescription();
 		}catch(Exception ex) {
-			ret[2] = "undefined";
+			ret[2] = "UNDEFINED";
 		}
 		return ret;
 		
@@ -84,7 +84,7 @@ public class CircleOfHell implements DBEntry{
 	@Override
 	public String getShortDescription() {
 		String ret = "";
-		ret = Integer.toString(this.getId())+" "+this.getName();
+		ret = "(ID "+Integer.toString(this.getId())+") "+this.getName();
 		return ret;
 	}
 	@Override

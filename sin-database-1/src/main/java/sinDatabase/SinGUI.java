@@ -240,7 +240,7 @@ public class SinGUI extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SinnerAddForm addForm = new SinnerAddForm(objectModel, "ADD");
-				addForm.setEntity(new Sin());
+				addForm.setEntity(new Sinner());
 				addForm.getAddButton().addActionListener(new ActionListener() {
 
 					@Override

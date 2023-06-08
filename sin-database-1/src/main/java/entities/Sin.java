@@ -81,17 +81,17 @@ public class Sin implements DBEntry{
 		try {
 			ret[0] = Integer.toString(this.getId());
 		}catch(Exception ex) {
-			ret[0] = "undefined";
+			ret[0] = "UNDEFINED";
 		}
 		try {
 			ret[1] = this.getName();
 		}catch(Exception ex) {
-			ret[1] = "undefined";
+			ret[1] = "UNDEFINED";
 		}
 		try {
 			ret[2] = Float.toString(this.getHeaviness());
 		}catch(Exception ex) {
-			ret[2] = "undefined";
+			ret[2] = "UNDEFINED";
 		}
 		
 		return ret;
@@ -100,7 +100,7 @@ public class Sin implements DBEntry{
 	@Override
 	public String getShortDescription() {
 		String ret = "";
-		ret = Integer.toString(this.getId())+" "+this.getName()+" heaviness:" + Float.toString(this.getHeaviness());
+		ret = "(ID "+Integer.toString(this.getId())+") "+this.getName()+" heaviness: " + Float.toString(this.getHeaviness());
 		return ret;
 	}
 	@Override

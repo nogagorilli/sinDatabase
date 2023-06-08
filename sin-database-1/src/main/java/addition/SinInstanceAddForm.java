@@ -2,6 +2,8 @@ package addition;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -62,7 +64,7 @@ public class SinInstanceAddForm extends AddForm{
 		
 		
 		
-		this.datePanel = new AttributeValuePanel("DATE");
+		this.datePanel = new AttributeValuePanel("DATE (YYYY-MM-DD)");
 		datePanel.getAttrValueField().addCaretListener(new CaretListener() {
 			@Override
 			public void caretUpdate(CaretEvent e) {
@@ -72,6 +74,28 @@ public class SinInstanceAddForm extends AddForm{
 					System.out.println("wrong data format");
 				}
 			}
+		});
+		datePanel.getAttrValueField().addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				try {
+					entity.setDate(Date.valueOf(datePanel.getAttrValueField().getText()));
+					System.out.println("a date");
+				}catch(Exception ex) {
+					System.out.println("not a date");
+					datePanel.getAttrValueField().setText(new Date(0).toString());
+					entity.setDate(new Date(0));
+				}
+				
+			}
+			
 		});
 		
 		this.sinnerChoosePanel = new AttributeChoosePanel(this, "SINNER",(ArrayList) this.getObjectModel().getSinners());

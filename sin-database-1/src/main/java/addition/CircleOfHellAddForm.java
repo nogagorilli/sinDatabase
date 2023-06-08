@@ -1,5 +1,8 @@
 package addition;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.persistence.EntityManager;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -25,6 +28,24 @@ public class CircleOfHellAddForm extends AddForm{
 			}
 			
 		});
+		namePanel.getAttrValueField().addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(namePanel.getAttrValueField().getText().trim().length() == 0) {
+					namePanel.getAttrValueField().setText("UNDEFINED");
+					entity.setName(namePanel.getAttrValueField().getText());
+				}
+				
+			}
+			
+		});
 		
 		
 		
@@ -39,6 +60,24 @@ public class CircleOfHellAddForm extends AddForm{
 				}catch(Exception ex) {
 					entity.setDescription("---------------");
 				}
+			}
+			
+		});
+		descriptionPanel.getAttrValueField().addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(descriptionPanel.getAttrValueField().getText().trim().length() == 0) {
+					descriptionPanel.getAttrValueField().setText("UNDEFINED");
+					entity.setDescription(descriptionPanel.getAttrValueField().getText());
+				}
+				
 			}
 			
 		});
